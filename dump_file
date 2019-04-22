@@ -1,0 +1,1495 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: postgres; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE postgres IS 'default administrative connection database';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: Action; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Action" (
+    id integer NOT NULL,
+    date timestamp without time zone DEFAULT now(),
+    performed_by integer,
+    invoice_acted integer
+);
+
+
+ALTER TABLE public."Action" OWNER TO postgres;
+
+--
+-- Name: Action_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Action_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Action_id_seq" OWNER TO postgres;
+
+--
+-- Name: Action_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Action_id_seq" OWNED BY "Action".id;
+
+
+--
+-- Name: CSVs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "CSVs" (
+    id integer NOT NULL,
+    csv_file bytea,
+    csv_name character varying
+);
+
+
+ALTER TABLE public."CSVs" OWNER TO postgres;
+
+--
+-- Name: CSVs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "CSVs_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."CSVs_id_seq" OWNER TO postgres;
+
+--
+-- Name: CSVs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "CSVs_id_seq" OWNED BY "CSVs".id;
+
+
+--
+-- Name: Contact; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Contact" (
+    id integer NOT NULL,
+    name character varying,
+    email character varying,
+    phone character varying
+);
+
+
+ALTER TABLE public."Contact" OWNER TO postgres;
+
+--
+-- Name: Contact_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Contact_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Contact_id_seq" OWNER TO postgres;
+
+--
+-- Name: Contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Contact_id_seq" OWNED BY "Contact".id;
+
+
+--
+-- Name: Forecast; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Forecast" (
+    id integer NOT NULL,
+    intervalo integer,
+    accuracy double precision,
+    previsao integer,
+    modelo character varying,
+    invoice_id character varying
+);
+
+
+ALTER TABLE public."Forecast" OWNER TO postgres;
+
+--
+-- Name: Forecast_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Forecast_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Forecast_id_seq" OWNER TO postgres;
+
+--
+-- Name: Forecast_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Forecast_id_seq" OWNED BY "Forecast".id;
+
+
+--
+-- Name: Indicator; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Indicator" (
+    id integer NOT NULL,
+    name character varying,
+    date timestamp without time zone DEFAULT now(),
+    value double precision
+);
+
+
+ALTER TABLE public."Indicator" OWNER TO postgres;
+
+--
+-- Name: Indicator_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Indicator_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Indicator_id_seq" OWNER TO postgres;
+
+--
+-- Name: Indicator_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Indicator_id_seq" OWNED BY "Indicator".id;
+
+
+--
+-- Name: Invoice; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Invoice" (
+    id integer NOT NULL,
+    nro_invoice character varying,
+    resp_invoice character varying,
+    tipo character varying,
+    dt_emissao character varying,
+    dt_vencimento character varying,
+    dt_pagamento character varying,
+    fornecedor character varying,
+    valor_invoice double precision,
+    dolar_provisao double precision,
+    dolar_pagamento double precision,
+    valor_pago double precision,
+    status character varying,
+    observacao character varying,
+    imposto double precision
+);
+
+
+ALTER TABLE public."Invoice" OWNER TO postgres;
+
+--
+-- Name: Invoice_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Invoice_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Invoice_id_seq" OWNER TO postgres;
+
+--
+-- Name: Invoice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Invoice_id_seq" OWNED BY "Invoice".id;
+
+
+--
+-- Name: Machine; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Machine" (
+    id integer NOT NULL,
+    price double precision,
+    date timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public."Machine" OWNER TO postgres;
+
+--
+-- Name: Machine_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Machine_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Machine_id_seq" OWNER TO postgres;
+
+--
+-- Name: Machine_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Machine_id_seq" OWNED BY "Machine".id;
+
+
+--
+-- Name: Notification; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Notification" (
+    id integer NOT NULL,
+    platform character varying,
+    date timestamp without time zone DEFAULT now(),
+    message character varying
+);
+
+
+ALTER TABLE public."Notification" OWNER TO postgres;
+
+--
+-- Name: Notification_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Notification_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Notification_id_seq" OWNER TO postgres;
+
+--
+-- Name: Notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Notification_id_seq" OWNED BY "Notification".id;
+
+
+--
+-- Name: Signals; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Signals" (
+    id integer NOT NULL,
+    indicator integer,
+    date timestamp without time zone DEFAULT now(),
+    accuracy double precision
+);
+
+
+ALTER TABLE public."Signals" OWNER TO postgres;
+
+--
+-- Name: Signals_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Signals_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Signals_id_seq" OWNER TO postgres;
+
+--
+-- Name: Signals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Signals_id_seq" OWNED BY "Signals".id;
+
+
+--
+-- Name: Strategy; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Strategy" (
+    id integer NOT NULL,
+    indicator integer,
+    days_past integer,
+    accuracy double precision,
+    active boolean
+);
+
+
+ALTER TABLE public."Strategy" OWNER TO postgres;
+
+--
+-- Name: Strategy_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Strategy_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Strategy_id_seq" OWNER TO postgres;
+
+--
+-- Name: Strategy_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Strategy_id_seq" OWNED BY "Strategy".id;
+
+
+--
+-- Name: Strategy_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Strategy_type" (
+    id integer NOT NULL,
+    trade_type integer
+);
+
+
+ALTER TABLE public."Strategy_type" OWNER TO postgres;
+
+--
+-- Name: Strategy_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Strategy_type_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Strategy_type_id_seq" OWNER TO postgres;
+
+--
+-- Name: Strategy_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Strategy_type_id_seq" OWNED BY "Strategy_type".id;
+
+
+--
+-- Name: Sugestion; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Sugestion" (
+    id integer NOT NULL,
+    sugestion character varying,
+    invoice_id integer,
+    sugestion_date timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public."Sugestion" OWNER TO postgres;
+
+--
+-- Name: Sugestion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Sugestion_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Sugestion_id_seq" OWNER TO postgres;
+
+--
+-- Name: Sugestion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Sugestion_id_seq" OWNED BY "Sugestion".id;
+
+
+--
+-- Name: Tendence; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Tendence" (
+    id integer NOT NULL,
+    flag boolean,
+    date timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public."Tendence" OWNER TO postgres;
+
+--
+-- Name: Tendence_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Tendence_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Tendence_id_seq" OWNER TO postgres;
+
+--
+-- Name: Tendence_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Tendence_id_seq" OWNED BY "Tendence".id;
+
+
+--
+-- Name: Users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Users" (
+    id integer NOT NULL,
+    email character varying,
+    name character varying,
+    password character varying,
+    usertype character varying
+);
+
+
+ALTER TABLE public."Users" OWNER TO postgres;
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Users_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Users_id_seq" OWNER TO postgres;
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Users_id_seq" OWNED BY "Users".id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Action" ALTER COLUMN id SET DEFAULT nextval('"Action_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "CSVs" ALTER COLUMN id SET DEFAULT nextval('"CSVs_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Contact" ALTER COLUMN id SET DEFAULT nextval('"Contact_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Forecast" ALTER COLUMN id SET DEFAULT nextval('"Forecast_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Indicator" ALTER COLUMN id SET DEFAULT nextval('"Indicator_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Invoice" ALTER COLUMN id SET DEFAULT nextval('"Invoice_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Machine" ALTER COLUMN id SET DEFAULT nextval('"Machine_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Notification" ALTER COLUMN id SET DEFAULT nextval('"Notification_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Signals" ALTER COLUMN id SET DEFAULT nextval('"Signals_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Strategy" ALTER COLUMN id SET DEFAULT nextval('"Strategy_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Strategy_type" ALTER COLUMN id SET DEFAULT nextval('"Strategy_type_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Sugestion" ALTER COLUMN id SET DEFAULT nextval('"Sugestion_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Tendence" ALTER COLUMN id SET DEFAULT nextval('"Tendence_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Users" ALTER COLUMN id SET DEFAULT nextval('"Users_id_seq"'::regclass);
+
+
+--
+-- Data for Name: Action; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Action" (id, date, performed_by, invoice_acted) FROM stdin;
+\.
+
+
+--
+-- Name: Action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Action_id_seq"', 1, false);
+
+
+--
+-- Data for Name: CSVs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "CSVs" (id, csv_file, csv_name) FROM stdin;
+\.
+
+
+--
+-- Name: CSVs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"CSVs_id_seq"', 1, false);
+
+
+--
+-- Data for Name: Contact; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Contact" (id, name, email, phone) FROM stdin;
+3	gabriel	ferraz@ufu.br	34992775400
+4	munyse	munysebb@algartelecom.com.br	34998886487
+5	brunno	brunno@algartelecom.com.br	34999694223
+6	oliveira	oliveirav@algartelecom.com.br	34999796316
+7	vinicius	vinicius@algartelecom.com.br	34996815050
+8	gustavop	gustavop@algartelecom.com.br	34999762649
+10	joaoplm	joaoplm@algartelecom.com.br	34997761514
+13	Barbara	barbarar@algartelecom.com.br	34991777621
+14	Kelly Miotta	kellyrmc@algartelecom.com.br	34998096697
+15	marcella	marcella@algartelecom.com.br	34996785666
+\.
+
+
+--
+-- Name: Contact_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Contact_id_seq"', 15, true);
+
+
+--
+-- Data for Name: Forecast; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Forecast" (id, intervalo, accuracy, previsao, modelo, invoice_id) FROM stdin;
+4	30	0.876826722338204578	0	svm	\N
+5	90	0.920770877944325439	0	svm	\N
+7	15	0.811203319502074693	0	svm	\N
+8	5	0.70867768595041325	0	svm	\N
+9	7	0.75	0	svm	\N
+12	1	0.657731958762886593	1	svm	\N
+\.
+
+
+--
+-- Name: Forecast_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Forecast_id_seq"', 15, true);
+
+
+--
+-- Data for Name: Indicator; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Indicator" (id, name, date, value) FROM stdin;
+38	tv_ch	2017-12-19 07:02:48.07184	0
+36	tv_high	2017-12-18 07:04:46.366499	3.86620000000000008
+37	tv_low	2017-12-18 07:04:46.370247	3.86620000000000008
+35	tv_lp	2017-12-18 07:04:46.362416	3.86620000000000008
+1	macd	2017-12-13 12:22:05.15405	0.0241448799022636607
+2	macd_signal_line	2017-12-13 12:22:05.1604	0.0057755105973585812
+3	macd_histogram	2017-12-13 12:22:05.163961	0.0307274616872799319
+4	bollinger	2017-12-13 12:22:05.166981	3.78701499999999935
+5	bollinger_up	2017-12-13 12:22:05.169941	3.91263972560890583
+6	bollinger_low	2017-12-13 12:22:05.173141	3.66139027439109288
+7	close_price	2017-12-13 12:22:05.176426	3.8660000000000001
+8	rsi6	2017-12-13 12:22:05.179715	58.7327498131057197
+9	rsi12	2017-12-13 12:22:05.182953	56.7570809461714205
+10	change_2days_ago	2017-12-13 12:22:05.186028	0.444259697072046933
+11	rsi6_mean	2017-12-13 12:22:05.189736	52.2273207561320802
+12	rsi6_std	2017-12-13 12:22:05.192834	16.9414505701249105
+13	rsi6_standardized	2017-12-13 12:22:05.19577	0.383994807885312872
+14	rsi12_mean	2017-12-13 12:22:05.1992	52.3377303501207578
+15	rsi12_std	2017-12-13 12:22:05.20255	12.3005043979882203
+16	rsi12_standardized	2017-12-13 12:22:05.205761	0.359282063000071705
+17	bollinger_up_mean	2017-12-13 12:22:05.209364	2.6763460194626667
+18	bollinger_up_std	2017-12-13 12:22:05.212592	0.803827501941477229
+19	bollinger_up_standardized	2017-12-13 12:22:05.215835	1.53800871848777287
+20	bollinger_low_mean	2017-12-13 12:22:05.219192	2.5157439718353527
+21	bollinger_low_std	2017-12-13 12:22:05.222231	0.735381429791484464
+22	bollinger_low_standardized	2017-12-13 12:22:05.225267	1.55789398010850677
+23	bollinger_mean	2017-12-13 12:22:05.228875	2.59566793417194619
+24	bollinger_std	2017-12-13 12:22:05.23225	0.768450503435371246
+25	bollinger_standardized	2017-12-13 12:22:05.235486	1.55032374954810437
+26	macd_mean	2017-12-13 12:22:05.239251	0.0060816128546109325
+27	macd_std	2017-12-13 12:22:05.242425	0.0303137959694545038
+28	macd_standardized	2017-12-13 12:22:05.245834	0.496725273257111521
+29	macd_histogram_mean	2017-12-13 12:22:05.248986	1.68176255927068916e-05
+30	macd_histogram_std	2017-12-13 12:22:05.252016	0.0169745631518467902
+31	macd_histogram_standardized	2017-12-13 12:22:05.255101	1.80921557668162913
+32	macd_signal_line_mean	2017-12-13 12:22:05.258459	0.00607320404181457916
+33	macd_signal_line_std	2017-12-13 12:22:05.262004	0.0287912807546728718
+34	macd_signal_line_standardized	2017-12-13 12:22:05.264927	-0.0103397082954596181
+\.
+
+
+--
+-- Name: Indicator_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Indicator_id_seq"', 38, true);
+
+
+--
+-- Data for Name: Invoice; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Invoice" (id, nro_invoice, resp_invoice, tipo, dt_emissao, dt_vencimento, dt_pagamento, fornecedor, valor_invoice, dolar_provisao, dolar_pagamento, valor_pago, status, observacao, imposto) FROM stdin;
+366	100210125696	KAROLINE CASTRO MARTINS	OPEX	2018-12-1	2018-12-31	2018-10-2	EQUINIX	2120	3.86330000000000018	3.89500000000000002	8257.39999999999964	encerrada	CP-2747851	0
+14	k04142	Barbara Ramos Alves	OPEX	2017-11-30	2018-1-2	2018-1-2	HBO CELULAR	117277.059999999998	3.28189999999999982	3.27700000000000014	384316.925619999995	encerrada	null	58192.8799999999974
+365	100210124643	Andressa Aparecida de Oliveira	OPEX	2018-12-6	2018-12-31	2019-1-2	INVOICE EM DOLARES AMERICANOS DA EMPRESA EQUINIX - MONET	6512.94999999999982	0.100000000000000006	3.89500000000000002	25367.9402499999997	encerrada	0.0	0
+13	F001-00007391	Barbara Ramos Alves	OPEX	2017-11-14	2018-1-2	2018-1-2	MEDIA NETWORKS	348013.710000000021	3.28189999999999982	3.27700000000000014	1140440.92767000012	encerrada	null	171932.010000000009
+16	D020001OXV	Mariana de Oliveira	OPEX	2017-11-12	2018-1-11	2018-1-2	MICROSOFT	63213.9000000000015	3.27879999999999994	3.26900000000000013	206646.239100000006	encerrada	null	31366.7400000000016
+17	359018	Karoline Castro Martins	CAPEX	2017-11-16	2018-1-15	2018-1-2	TYCO ELECTRONICS	562805.739999999991	3.25910000000000011	3.26900000000000013	1839811.96406000014	encerrada	null	0
+15	K04139	Barbara Ramos Alves	OPEX	2017-11-30	2018-1-2	2018-1-2	HBO TELECOM	76048.4900000000052	3.28189999999999982	3.27700000000000014	249210.901730000041	encerrada	null	37735.260000000002
+12	100210053921	Karoline Castro Martins	CAPEX	2017-12-1	2017-12-22	2017-12-22	EQUINIX MONET	6070.90999999999985	3.28920000000000012	3.32500000000000018	20185.7757500000007	encerrada	null	3027.86999999999989
+28	92506387	Karoline Castro Martins	CAPEX	2017-10-26	2018-1-24	2018-1-24	CORIANT	30691.6599999999999	3.25	3.23200000000000021	99195.445120000004	encerrada	Liberado pelo Gustavo	0
+19	92506139	Karoline Castro Martins	CAPEX	2017-10-25	2018-1-23	2018-1-23	CORIANT	19842.7900000000009	3.25	3.21399999999999997	63774.7270600000047	encerrada	Liberado pelo Gustavo	0
+50	6000001567	Karoline Castro Martins	OPEX	2018-1-3	2018-1-22	2018-1-22	Ibasis, Inc	7560	3.26969999999999983	3.19300000000000006	24139.0800000000017	encerrada	null	0
+20	92506138	Karoline Castro Martins	CAPEX	2017-10-25	2018-1-23	2018-1-23	CORIANT	2224.23999999999978	3.25	3.21399999999999997	7148.70735999999943	encerrada	Liberado pelo Gustavo	0
+24	92506392	Karoline Castro Martins	CAPEX	2017-10-26	2018-1-24	2018-1-24	CORIANT	28608.0800000000017	3.25	3.23200000000000021	92461.3145600000134	encerrada	Liberado pelo Gustavo	0
+29	92507018	Karoline Castro Martins	CAPEX	2017-10-31	2018-1-25	2018-1-24	CORIANT	6647.14000000000033	3.25	3.23200000000000021	21483.5564800000029	encerrada	Liberado pelo Gustavo	0
+58	92506485	Karoline Castro MArtins	CAPEX	2017-10-27	2018-1-25	2018-1-24	Coriant	19842.7799999999988	3.25	3.23200000000000021	64131.864959999999	encerrada	Liberado pelo Gustavo	0
+25	92506391	Karoline Castro Martins	CAPEX	2017-10-26	2018-1-24	2018-1-24	CORIANT	123643.869999999995	3.25	3.23200000000000021	399616.987840000016	encerrada	Liberado pelo Gustavo	0
+21	92506137	Karoline Castro Martins	CAPEX	2017-10-25	2018-1-23	2018-1-23	CORIANT	8104	3.25	3.21399999999999997	26046.2560000000012	encerrada	Liberado pelo Gustavo	0
+34	EXP411516	Karoline Castro Martins	CAPEX	2017-11-29	2018-2-27	2018-2-21	EXPERTS	80256.5099999999948	3.25	3.25	260833.657499999972	encerrada	Liberado pelo Gustavo	46031.3000000000029
+60	92506973	Karoline Castro Martins	CAPEX	2017-10-31	2018-2-28	2018-2-21	CORIANT	29580.1699999999983	3.25	3.25	96135.5524999999907	encerrada	CP-2045923	0
+26	92506390	Karoline Castro Martins	CAPEX	2017-10-26	2018-1-24	2018-1-24	CORIANT	9552.31999999999971	3.25	3.23200000000000021	30873.0982399999994	encerrada	Liberado pelo Gustavo	0
+23	92506393	Karoline Castro Martins	CAPEX	2017-10-26	2018-1-24	2018-1-24	CORIANT	47030.989999999998	3.25	3.23200000000000021	152004.159680000012	encerrada	Liberado pelo Gustavo	0
+36	MONET 121917-01	KAROLINE CASTRO MARTINS	CAPEX	2017-12-19	2018-2-17	2018-1-3	ECKHOFF AND COMPANY	227713.350000000006	3.3024	3.246	739157.534100000048	encerrada	null	132931.329999999987
+42	359019	KAROLINE CASTRO MARTINS	CAPEX	2017-11-16	2018-1-15	2018-1-3	TYCO ELETRONICS	107481.660000000003	3.25910000000000011	3.26900000000000013	351357.54654000001	encerrada	null	53332.8799999999974
+38	92502496	Karoline Castro Martins	CAPEX	2017-9-30	2017-12-29	2018-1-11	CORIANT	32059.2099999999991	3.25	3.2280000000000002	103487.129880000008	encerrada	null	0
+39	92506388	Karoline Castro Martins	CAPEX	2017-10-26	2017-12-25	2018-1-11	CORIANT	19537.2099999999991	3.25	3.2280000000000002	63066.1138800000044	encerrada	null	0
+40	92506395	Karoline Castro Martins	CAPEX	2017-10-26	2017-12-25	2018-1-11	CORIANT	11758.0400000000009	3.25	3.2280000000000002	37954.9531200000056	encerrada	null	0
+41	92506573	Karoline Castro Martins	CAPEX	2017-10-27	2017-12-26	2018-1-11	CORIANT	287.930000000000007	3.25	3.2280000000000002	929.438040000000115	encerrada	null	0
+37	EXP411476	Karoline Castro Martins	CAPEX	2017-10-2	2017-12-22	2018-1-11	EXPERTS	2259.5300000000002	3.25	3.2280000000000002	7293.76284000000123	encerrada	null	0
+48	K22700	LEANDRO DUMBRA	OPEX	2017-12-31	2018-2-5	2018-2-5	BRASIL DISTRIBUTION LLC - HBO	76170.6399999999994	3.3165	3.20599999999999996	244203.07183999999	encerrada	N° Chamado: 2010257	7326.09000000000015
+49	100210063118	Karoline Castro Martins	CAPEX	2018-1-1	2018-1-31	2018-1-17	EQUINIX	7171.07999999999993	3.24029999999999996	3.2370000000000001	23212.7859600000011	encerrada	null	0
+51	20171234730	Karoline Castro Martins	OPEX	2017-12-8	2018-1-6	2018-1-16	Syniverse	14942.2700000000004	3.28920000000000012	3.22199999999999998	48143.9939400000003	encerrada	null	0
+54	NEAI81705278-A	GIHANE ALVES	OPEX	2017-12-7	2018-1-6	2018-1-8	TELIA CARRIER	7500	3.23539999999999983	3.24199999999999999	24315	encerrada	null	0
+53	9000143260	Karoline Castro Martins	OPEX	2017-12-18	2018-1-16	2018-1-16	Deutsche Telekom	500	3.31820000000000004	3.22199999999999998	1611	encerrada	Chamado Qualitor CP-1981591	0
+44	12225	Wexley Cristian Albino	OPEX	2017-12-11	2018-1-24	2018-1-23	Mail2Word	17500	3.29999999999999982	3.23200000000000021	56560	encerrada	null	9981.20000000000073
+27	92506389	Karoline Castro Martins	CAPEX	2017-10-26	2018-1-24	2018-1-24	CORIANT	3815.65999999999985	3.25	3.23200000000000021	12332.2131200000003	encerrada	Liberado pelo Gustavo	0
+43	2017-1092	Wexley Cristian Albino	OPEX	2017-12-15	2018-1-26	2018-1-24	DUDA	27500	3.29999999999999982	3.23200000000000021	88880	encerrada	null	16022.4899999999998
+45	7636 ...	LEANDRO DUMBRA	CAPEX	2017-12-12	2018-2-5	2018-2-5	MEDIA NETWORKS	25227	3.35999999999999988	3.20599999999999996	80877.7620000000024	encerrada	N° Chamado: 2010458  - INVOICES: 5393; 5400; 5459; 5767; 5982; 6400; 6579; 6878; 7202; 7395 e 7636	12439
+46	K22703	LEANDRO DUMBRA	OPEX	2017-12-31	2018-2-5	2018-2-5	BRASIL DISTRIBUTION LLC - HBO	118178.419999999998	3.3165	3.20599999999999996	378880.014519999968	encerrada	N° Chamado: 2010284	69378.9900000000052
+47	186467	LEANDRO DUMBRA	OPEX	2017-12-31	2018-2-5	2018-2-5	VUBIQUITY MANAGEMENT LTDA	26470.5900000000001	0.0100000000000000002	3.20599999999999996	84864.7115400000039	encerrada	N° Chamado:2010309	24633.7599999999984
+56	9000144617	Karoline Castro Martins	OPEX	2018-1-10	2018-2-9	2018-2-5	Deutsche Telekom	0.739999999999999991	3.23970000000000002	3.22599999999999998	2.38723999999999981	encerrada	Chamado Qualitor CP-2034295	0.429999999999999993
+52	7975	LEANDRO DUMBRA	OPEX	2018-1-15	2018-2-14	2018-2-5	MEDIA NETWORK	346161.260000000009	3.3165	3.23689999999999989	1120489.38249400002	encerrada	CHAMADO: 2033718	168073.410000000003
+57	9000145833	Karoline Castro Martins	OPEX	2018-1-18	2018-2-17	2018-2-5	Deutsche Telekom	500	3.23240000000000016	3.22599999999999998	1613	encerrada	CP- 2042240	290.779999999999973
+93	MONET 022018-01	Karoline Castro Martins	CAPEX	2018-2-20	2018-4-23	2018-4-20	Eckhoff and Co	79750	3.23470000000000013	3.41800000000000015	272585.5	encerrada	CP-2145395	48103.4400000000023
+59	9010003082	Kelly Roberta Miotta da Cruz	CAPEX	2017-12-28	2018-1-25	2018-1-24	INGRAM MICRO GLOBAL SERVICES B.Vl	26800	3.29999999999999982	3.24900000000000011	87073.1999999999971	encerrada	SR- 00002235	15696.7700000000004
+87	D020001PWR	NAYARA MENEZES BARCELOS	OPEX	2018-1-12	2018-3-13	2018-3-13	Microsoft Corporation	73063.1000000000058	3.18000000000000016	3.25039999999999996	237484.300240000011	encerrada	PAGAMENTO MICROSOFT REFERENTE A REVENDA DO OFFICE 365	36389.7200000000012
+33	EXP411515	Karoline Castro Martins	CAPEX	2017-11-29	2018-2-27	2018-2-21	EXPERTS	80760.7700000000041	3.25	3.25	262472.502500000002	encerrada	Liberado pelo Gustavo	46318.7799999999988
+69	92512013	Karoline Castro Martins	CAPEX	2017-12-5	2018-2-28	2018-2-21	CORIANT	807.980000000000018	3.25	3.25	2625.93499999999995	encerrada	CP-2048736	0
+73	NEAI81705551	Gihane Alves Abadio Reis	OPEX	2017-12-20	2018-2-9	2018-2-5	Telia Carrier U.S. Inc	21103.2299999999996	3.2883	3.22599999999999998	68079.0199799999973	encerrada	CP-2058104	12013.9599999999991
+72	T100226451	Gihane Alves Abadio Reis	OPEX	2018-1-5	2018-2-4	2018-2-5	Terremark North America	45.2700000000000031	3.23179999999999978	3.20599999999999996	145.135620000000017	encerrada	CP-2058086	25.6099999999999994
+55	20180134730	Karoline Castro Martins	OPEX	2018-1-10	2018-2-8	2018-2-5	Syniverse	16554.1500000000015	3.23970000000000002	3.22599999999999998	53403.6879000000044	encerrada	Chamado Qualitor CP 2034251	9424.39999999999964
+61	92508429	Karoline Castro Martins	CAPEX	2017-11-9	2018-2-28	2018-2-21	CORIANT	6639.57999999999993	3.25	3.25	21578.6349999999984	encerrada	CP-2047139	0
+75	ALGARTEL900010011266623	Gihane Alves Abadio Reis	OPEX	2018-1-1	2018-2-2	2018-2-2	Cogent Communications Inc	5500	3.30799999999999983	3.19989999999999997	17599.4500000000007	encerrada	CP-2058169	3172.67000000000007
+74	NEAI81800024	Gihane Alves Abadio Reis	OPEX	2018-1-10	2018-2-9	2018-2-5	Telia Carrier U. S. Inc	17900	3.23970000000000002	3.22599999999999998	57745.4000000000015	encerrada	CP-2058154	10409.8099999999995
+76	100210062154	Gihane Alves Abadio Reis	OPEX	2018-1-1	2018-2-2	2018-2-2	Equinix Inc	7773.07999999999993	3.30799999999999983	3.19989999999999997	24873.0786919999991	encerrada	CP-2058189	4389.38000000000011
+64	92509604	Karoline Castro Martins	CAPEX	2017-11-16	2018-2-28	2018-2-21	CORIANT	4277.63000000000011	3.25	3.25	13902.2975000000006	encerrada	CP-2047466	0
+63	92509603	Karoline Castro Martins	CAPEX	2017-11-16	2018-2-28	2018-2-21	CORIANT	2367.90000000000009	3.25	3.25	7695.67500000000018	encerrada	CP-2047214	0
+62	92509602	Karoline Castro Martins	CAPEX	2017-11-16	2018-2-28	2018-2-21	CORIANT	4277.63000000000011	3.25	3.25	13902.2975000000006	encerrada	CP-2047175	0
+81	D020001PFA	Nayara Menezes Barcelos	OPEX	2017-12-12	2018-2-9	2018-2-9	Microsoft Corporation	38366.1800000000003	3.25870000000000015	3.29300000000000015	126339.830740000005	encerrada	CHAMADO 2083645	18950.9700000000012
+66	92509825	Karoline Castro Martins	CAPEX	2017-11-17	2018-2-28	2018-2-21	CORIANT	19595.0499999999993	3.25	3.25	63683.9124999999985	encerrada	CP-2048429	0
+106	100210075075	Karoline Castro Martins	OPEX	2018-3-1	2018-4-10	2018-4-10	Equinix, INC	7915.72000000000025	3.2448999999999999	3.43299999999999983	27174.6667600000001	encerrada	Qualitor: CP2170839	4795.53999999999996
+68	92509827	Karoline Castro Martins	CAPEX	2017-11-17	2018-2-28	2018-2-21	CORIANT	11524.7700000000004	3.25	3.25	37455.5025000000023	encerrada	CP-2048710	0
+82	188995	Leandro Dumbra	OPEX	2018-1-31	2018-2-23	2018-2-23	VUBIQUITY MANAGEMENT LTDA	26470.5900000000001	3.18480000000000008	3.254	86135.2998599999992	encerrada	chamado: 2100322	15782.5699999999997
+67	92509826	Karoline Castro Martins	CAPEX	2017-11-17	2018-2-28	2018-2-21	CORIANT	11524.7700000000004	3.25	3.25	37455.5025000000023	encerrada	CP-2048665	0
+70	92512015	Karoline Castro Martins	CAPEX	2017-12-5	2018-2-28	2018-2-21	CORIANT	1765.98000000000002	3.25	3.25	5739.4350000000004	encerrada	CP-2048795	0
+90	20180234730	Karoline Castro Martins	OPEX	2018-2-9	2018-3-9	2018-3-9	Syniverse	20377.3600000000006	3.26920000000000011	3.25999999999999979	66430.1935999999987	encerrada	CP- 2117149	11975.4400000000005
+83	6000001672	Karoline Castro Martins	OPEX	2018-2-5	2018-2-20	2018-2-20	Ibasis	7560	3.20599999999999996	3.25800000000000001	24630.4799999999996	encerrada	null	4440.15999999999985
+95	92519957	Karoline Castro Martins	CAPEX	2018-1-31	2018-4-10	2018-4-10	Coriant	9763.44000000000051	3.25	3.43299999999999983	33517.889519999997	encerrada	CP-2144960	5914.9399999999996
+88	60063909	NAYARA MENEZES BARCELOS	OPEX	2018-2-19	2018-3-2	2018-3-2	CAPACITY	21000	0.0100000000000000002	3.2629999999999999	68523	encerrada	EVENTO CAPACITY LATAN	4491.42000000000007
+91	92509824	Karoline Castro Martins	CAPEX	2017-11-17	2018-2-28	2018-2-22	Coriant	19595.0499999999993	3.25	3.25	63683.9124999999985	encerrada	CP - 2047518	0
+85	100210071252	Karoline Castro Martins	CAPEX	2018-2-1	2018-3-3	2018-3-5	Equinix, INC	5303.85999999999967	3.16239999999999988	3.26600000000000001	17322.406759999998	encerrada	PROJ. MONET. Chamado Qualitor CP 2106290	3056.90000000000009
+80	k41258	LEANDRO DUMBRA	OPEX	2018-1-29	2018-2-28	2018-2-23	BRASIL DISTRIBUTION HBO	76170.570000000007	3.3165	3.254	247859.034780000016	encerrada	CHAMADO 2072459 ALGAR  TELECOM	0
+99	A12	Polliana Silva da Costa	CAPEX	2018-2-28	2018-4-28	2018-4-23	Promon Logicalis	527379.359999999986	3.25	3.40799999999999992	1797308.85887999996	encerrada	Algar Multimidia	0
+103	9000149894	Karoline Castro Martins	OPEX	2018-2-21	2018-3-23	2018-3-23	Deutsche Telekom	500	3.25070000000000014	3.30949999999999989	1654.75	encerrada	Qualitor: CP 2169415	292.019999999999982
+105	100210074658	Karoline Castro Martins	OPEX	2018-3-1	2018-4-10	2018-4-10	Equinix, INC	11877.6800000000003	3.2448999999999999	3.43299999999999983	40776.0754400000005	encerrada	Qualitor: CP 2170789	0
+98	192426	LEANDRO DUMBRA	OPEX	2018-3-5	2018-4-5	2018-4-10	VUBIQUITY	26470.5	3.18480000000000008	3.43299999999999983	90873.2264999999898	encerrada	CHAMADO 2155350	13631.0300000000007
+89	D020001QEU	NAYARA MENEZES BARCELOS	OPEX	2018-2-12	2018-4-13	2018-4-13	Microsoft Corporation	75953.6399999999994	3.30229999999999979	3.39900000000000002	258166.422359999997	encerrada	PAGAMENTO MICROSOFT REFERENTE A REVENDA DO OFFICE 365	39792.4000000000015
+102	6000001768	Karoline Castro Martins	OPEX	2018-3-2	2018-3-23	2018-3-23	Ibasis	7560	3.26200000000000001	3.30949999999999989	25019.8199999999997	encerrada	Qualitor: CP 2169389	4510.35000000000036
+92	100210076208	Karoline Casdtro Martins	CAPEX	2018-3-1	2018-3-31	2018-3-19	Equinix	3551.84999999999991	3.2448999999999999	3.30980000000000008	11755.9131300000008	encerrada	CP-2145313	2074.38999999999987
+101	20180334730	Karoline Castro Martins	OPEX	2018-3-9	2018-4-6	2018-3-23	Syniverse	14748.4699999999993	3.2517999999999998	3.30949999999999989	48810.0614649999989	encerrada	Qualitor: CP 2169340	8799.04000000000087
+97	K59436	LEANDRO DUMBRA	OPEX	2018-3-5	2018-4-5	2018-4-10	BRASIL DISTRIBUITION (HBO)	118770.210000000006	3.18480000000000008	3.43299999999999983	407738.130929999985	encerrada	CHAMADO 2155150	61160.7200000000012
+94	92519956	Karoline Castro Martins	CAPEX	2018-1-31	2018-4-10	2018-4-10	Coriant	9763.44000000000051	3.25	3.43299999999999983	33517.889519999997	encerrada	CP-2144751	5914.9399999999996
+104	T100229658	Karoline Castro Martins	OPEX	2018-3-5	2018-4-10	2018-4-10	Terremark North America LL C	45.2700000000000031	3.26140000000000008	3.43299999999999983	155.411910000000006	encerrada	Qualitor: CP 2170724	27.4299999999999997
+100	214571570014	Polliana Silva da Costa	CAPEX	2018-2-28	2018-4-28	2018-4-23	Promon Logicalis	15339.75	3.25	3.40799999999999992	52277.8680000000022	encerrada	Algar Multimidia	0
+84	8238; 8239; 8240; 8241; 8244 e 8245	LEANDRO DUMBRA	OPEX	2018-2-14	2018-3-16	2018-3-16	MEDIA NETWORKS LATIN AMERICA S.A.C	345013.309999999998	3.18480000000000008	3.28920000000000012	1134817.77925199992	encerrada	Chamado: 2103930	173888.130000000005
+111	K41261	LEANDRO DUMBRA	OPEX	2018-1-29	2018-2-28	2018-2-23	BRASIL DISTRIBUTION HBO	118884.110000000001	3.3165	3.254	386848.89393999998	encerrada	CHAMADO 2072434 ALGAR CELULAR	0
+122	92506136	Karoline Castro Martins	CAPEX	2017-10-25	2018-1-23	2018-1-23	CORIANT	29533.25	3.25	3.21399999999999997	94919.8654999999999	encerrada	null	0
+112	K59433	LEANDRO DUMBRA	OPEX	2018-2-28	2018-4-5	2018-4-10	BRASIL DISTRIBUTION HBO	76055.4700000000012	3.18480000000000008	3.43299999999999983	261098.428509999998	encerrada	CHAMADO 2155381 ALGAR TELECOM	39164.760000000002
+115	ALGARTEL900010041796593	Karoline Castro Martins	OPEX	2018-2-1	2018-4-10	2018-4-10	Cogent	30580.6399999999994	3.16239999999999988	3.43299999999999983	104983.337119999997	encerrada	Qualitor: CP 2181426	18526.5099999999984
+114	NEAI81800722-3	Karoline Castro Martins	OPEX	2018-2-9	2018-4-10	2018-4-10	Telia Carrier	17900	3.26920000000000011	3.43299999999999983	61450.6999999999971	encerrada	Qualitor: CP 2172297	10844.2600000000002
+107	100210068881	Karoline Castro Martins	OPEX	2018-2-1	2018-4-10	2018-4-10	Equinix, INC	21170.130000000001	3.16239999999999988	3.43299999999999983	72677.0562899999932	encerrada	Qualitor: CP 2170963	12825.3899999999994
+108	100210068657	Karoline Castro Martins	OPEX	2018-2-1	2018-4-10	2018-4-10	Equinix, INC	7915.72000000000025	3.16239999999999988	3.43299999999999983	27174.6667600000001	encerrada	Qualitor: CP 2171049	4795.53999999999996
+113	T100228303	Karoline Castro Martins	OPEX	2018-2-5	2018-4-10	2018-4-10	Terremark North America LL C	45.2700000000000031	3.20599999999999996	3.43299999999999983	155.411910000000006	encerrada	Qualitor CP 2171742	27.4299999999999997
+109	8439, 8440, 8441, 8442, 8444, 8445	LEANDRO DUMBRA	OPEX	2018-3-13	2018-4-12	2018-4-12	MEDIA NETWORKS	344874.739999999991	3.24569999999999981	3.39900000000000002	1172229.24126000004	encerrada	chamado nº 2170813;2170838;2170866;2171393; 2170911; 2170925	176894.880000000005
+123	2018-0132	Juliana Borges de Oliveira	OPEX	2018-2-28	2018-4-10	2018-4-10	Duda	1164	3.5	3.43299999999999983	3996.01199999999972	encerrada	null	705.17999999999995
+124	5012122017-44	Rogério Ribeiro da Silva	CAPEX	2017-12-20	2018-4-10	2018-4-10	NAGRA KUDELSKI	109500	3.25	3.43299999999999983	375913.5	encerrada	IMPORTAÇÃO LIBERADA EM 02-03-2018 -	0
+117	4114740	GLAYDSON ANTUNES BRAGA	OPEX	2018-3-1	2018-4-15	2018-4-16	TIBCO	3210	3.2427999999999999	3.43800000000000017	11035.9800000000014	encerrada	null	1947.52999999999997
+116	9000153910	Karoline Castro Martins	OPEX	2018-3-21	2018-4-20	2018-4-20	Deutsche Telekom	500	3.29809999999999981	3.41699999999999982	1708.5	encerrada	Qualitor: CP 2183856	301.5
+142	K77637	LEANDRO DUMBRA	OPEX	2018-4-10	2018-5-5	2018-5-4	Brasil Distribuition LLC	75781.1900000000023	3.24569999999999981	3.55100000000000016	269099.00569000002	encerrada	HBO INVOICE TELECOM MARÇO-18	40364.8499999999985
+139	100210066073	KAROLINE CASTRO MARTINS	OPEX	2018-1-1	2018-5-10	2018-5-10	EQUINIX	32210.5800000000017	3.30799999999999983	3.56400000000000006	114798.507120000009	encerrada	CP-2261052	20258.6100000000006
+151	ALGARTEL900010049842593	Karoline Castro Martins	OPEX	2018-3-1	2018-5-21	2018-5-21	COGENT	13500	3.2448999999999999	3.71099999999999985	50098.5	encerrada	CP-2287914	9031.30999999999949
+121	20182200	ALICE MEDEIROS	OPEX	2018-3-28	2018-4-27	2018-4-27	IBEX INSTITUTE FOR BUSINESS EXCELLENCE	29751.4000000000015	0.0100000000000000002	3.49500000000000011	103981.143000000011	encerrada	CURSO UMA VIAGEM EM BUSCA DA EXCELÊNCIA	0
+125	100210082282	Olacir Ribeiro da Costa	OPEX	2018-4-1	2018-5-1	2018-5-2	Equinix	6688.21000000000004	0.0100000000000000002	3.55500000000000016	23776.58655	encerrada	Opex Monet	4195.88000000000011
+134	ALGARTEL90001	Karoline Castro Martins	OPEX	2018-4-1	2018-5-2	2018-5-2	Cogent	8200	3.32379999999999987	3.55500000000000016	29151	encerrada	CP-2255650	5144.3100000000004
+145	124328550	Olacir Ribeiro	OPEX	2018-2-3	2018-5-2	2018-5-2	AMAZON	2604.59000000000015	0.0100000000000000002	3.55500000000000016	9259.31745000000046	encerrada	null	1669.19000000000005
+131	6000001904	Karoline Castro Martins	OPEX	2018-4-4	2018-5-7	2018-5-7	iBasis	7560	3.31389999999999985	3.54800000000000004	26822.880000000001	encerrada	CP-2255996	4733.98999999999978
+133	T100231671	Karoline Castro Martins	OPEX	2018-4-5	2018-5-5	2018-5-4	Verizon	45.2700000000000031	3.35380000000000011	3.55100000000000016	160.753770000000031	encerrada	CP-2255635	28.370000000000001
+141	K77640	LEANDRO DUMBRA	OPEX	2018-4-10	2018-5-5	2018-5-4	Brasil Distribuition LLC	118562.639999999999	3.24569999999999981	3.55100000000000016	421015.934639999992	encerrada	HBO INVOICE CELULAR MARÇO-18	63163.0400000000009
+140	100210078527	Karoline Castro Martins	OPEX	2018-4-1	2018-5-1	2018-5-2	Equinix, INC	6228.93000000000029	3.32379999999999987	3.55500000000000016	22143.8461500000012	encerrada	Qualitor: CP -2258243	3907.75
+126	392142	Olacir Ribeiro da Costa	OPEX	2018-4-8	2018-5-8	2018-5-9	Fibernet Direct	20757.5	0.0100000000000000002	3.58199999999999985	74353.3649999999907	encerrada	Opex - Monet	13121.2099999999991
+130	20180434730	Karoline Castro Martins	OPEX	2018-4-10	2018-5-9	2018-5-10	Syniverse	14312.9400000000005	3.39029999999999987	3.56400000000000006	51011.3181600000025	encerrada	CP-2255983	9002.02000000000044
+138	100210071473	KAROLINE CASTRO MARTINS	OPEX	2017-11-1	2018-5-10	2018-5-10	EQUINIX	6145.86999999999989	3.27689999999999992	3.56400000000000006	21903.8806799999984	encerrada	CP-2261068	3865.40000000000009
+132	NEAI81801484-F	Karoline Castro Martins	OPEX	2018-4-11	2018-5-10	2018-5-10	Telia Carrier	17900	3.41950000000000021	3.56400000000000006	63795.5999999999985	encerrada	CP-2255586	11258.0599999999995
+143	D020001QX3	LISIANE MONTEIRO	OPEX	2018-4-12	2018-5-11	2018-5-11	Microsoft Corporation	82033.179999999993	3.32739999999999991	3.56599999999999984	292530.319879999966	encerrada	PAGAMENTO MICROSOFT REFERENTE A REVENDA DO OFFICE 365	45172.6500000000015
+152	135453762	Taynara Alves	OPEX	2018-3-3	2018-5-14	2018-5-14	AMAZON	2678.61000000000013	0.0100000000000000002	3.59600000000000009	9632.28156000000126	encerrada	null	1736.42000000000007
+144	6000002009	Karoline Castro Martins	OPEX	2018-5-3	2018-5-18	2018-5-7	iBasis	7560	3.54240000000000022	3.54800000000000004	26822.880000000001	encerrada	CP-2275434	4733.98999999999978
+148	100210087569	Danilo Dias de Oliveira	OPEX	2018-5-1	2018-5-31	2018-6-1	Equinix	7776.5	0.0100000000000000002	3.73200000000000021	29021.898000000001	encerrada	CP-2284783	5238.67000000000007
+128	359152	Karoline Castro Martins	CAPEX	2018-4-3	2018-6-2	2018-6-4	Tyco Electronics	21412.7700000000004	3.31040000000000001	3.74900000000000011	80276.4747300000017	encerrada	Chamado CP-2255155	14166.4699999999993
+127	359151	Karoline Castro Martins	CAPEX	2018-4-3	2018-6-2	2018-6-4	Tyco Electronics	608697.339999999967	3.31040000000000001	3.74900000000000011	2282006.32765999995	encerrada	Chamado CP-2255074	0
+153	9000160385	Karoline Castro Martins	OPEX	2018-5-11	2018-6-8	2018-6-8	Deutsche Telekom	0.190000000000000002	3.55659999999999998	3.81930000000000014	0.725667000000000062	encerrada	CP-2294686	0.130000000000000004
+147	20182205	Alice de Medeiros Severino	OPEX	2018-4-27	2018-6-8	2018-6-8	IBEX	1205	0.0100000000000000002	3.81899999999999995	4601.89499999999953	encerrada	null	0
+150	ALGARTEL900010036496027	Karoline Castro Martins	OPEX	2018-5-1	2018-6-1	2018-6-1	COGENT	8200	3.48110000000000008	3.73200000000000021	30602.4000000000015	encerrada	CP-2287896	5407.67000000000007
+135	92532646	Karoline Castro Martins	CAPEX	2018-4-24	2018-6-23	2018-6-25	Coriant	21365.2900000000009	3.25	3.79199999999999982	81017.1796800000011	encerrada	Chamado CP-2255767	0
+136	92532647	Karoline Castro Martins	CAPEX	2018-4-24	2018-6-23	2018-6-25	Coriant	5961.07999999999993	3.25	3.79199999999999982	22604.4153599999991	encerrada	Chamado CP-2257480	0
+137	92532648	Karoline Castro Martins	CAPEX	2018-4-24	2018-6-23	2018-6-25	Coriant	19249.2400000000016	3.25	3.79199999999999982	72993.1180800000002	encerrada	Chamado CP-2257507	0
+129	9000157746	Karoline Castro Martins	OPEX	2018-4-20	2018-5-20	2018-5-23	Deutsche Telekom	500	3.39769999999999994	3.76799999999999979	1884	encerrada	CP-2256008	339.629999999999995
+311	100210120566	Andressa Aparecida de Oliveira	OPEX	2018-11-6	2018-12-1	2018-12-3	INVOICE EM DOLARES AMERICANOS DA EMPRESA EQUINIX - MONET	6312.94999999999982	0.100000000000000006	3.84149999999999991	24251.1974249999985	encerrada	0.0	4296.97999999999956
+167	8880	LEANDRO DUMBRA	OPEX	2018-5-7	2018-6-6	2018-6-6	MEDIA NETWORKS LATIN AMÉRICA S.A.C	218094.709999999992	3.32319999999999993	3.83300000000000018	835957.023430000059	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS MARZO 2018	198166.440000000002
+168	8881	LEANDRO DUMBRA	OPEX	2018-5-7	2018-6-6	2018-6-6	MEDIA NETWORKS LATIN AMÉRICA S.A.C	5559.39000000000033	3.32319999999999993	3.83300000000000018	21309.1418700000031	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS MARZO 2018 CP-2311522	0
+149	394000	Danilo Dias de Oliveira	OPEX	2018-5-8	2018-6-7	2018-6-7	Crown Castle (Fibernet)	8775	0.0100000000000000002	3.92300000000000004	34424.3249999999971	encerrada	CP-2284818	6074.89999999999964
+169	8882	LEANDRO DUMBRA	OPEX	2018-5-7	2018-6-6	2018-6-6	MEDIA NETWORKS LATIN AMÉRICA S.A.C	65062.2200000000012	3.32319999999999993	3.83300000000000018	249383.489260000002	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS MARZO 2018 CP-2311566	0
+170	8883	LEANDRO DUMBRA	OPEX	2018-5-7	2018-6-5	2018-6-6	MEDIA NETWORKS LATIN AMÉRICA S.A.C	1638.43000000000006	3.32319999999999993	3.83300000000000018	6280.10219000000052	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS MARZO 2018 CP-2311593	0
+171	8885	LEANDRO DUMBRA	OPEX	2018-5-7	2018-6-6	2018-6-6	MEDIA NETWORKS LATIN AMÉRICA S.A.C	45375	3.32319999999999993	3.83300000000000018	173922.375	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS MARZO 2018 CP-2311621	0
+172	8886	LEANDRO DUMBRA	OPEX	2018-5-14	2018-6-6	2018-6-6	MEDIA NETWORKS LATIN AMÉRICA S.A.C	8937.5	3.32319999999999993	3.83300000000000018	34257.4375	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS MARZO 2018 CP-2311644	0
+175	100210085658	karoline castro	OPEX	2018-5-1	2018-5-31	2018-6-4	EQUINIZ	10539.4500000000007	3.48110000000000008	3.77499999999999991	39786.4237500000017	encerrada	null	7021.14999999999964
+176	100210083442	KAROLINE CASTRO	OPEX	2018-5-1	2018-5-31	2018-6-4	EQUINIX	200	3.48110000000000008	3.77499999999999991	755	encerrada	null	133.240000000000009
+160	K96049	LEANDRO DUMBRA	OPEX	2018-5-9	2018-6-2	2018-6-4	Brasil Distribuition LLC	76185.5899999999965	3.32319999999999993	3.74900000000000011	285619.776910000015	encerrada	HBO INVOICE TELECOM ABRIL-18  CP-2287351	51411.5599999999977
+161	K96034	LEANDRO DUMBRA	OPEX	2018-5-9	2018-6-2	2018-6-4	Brasil Distribuition LLC	119207.820000000007	3.32319999999999993	3.74900000000000011	446910.117180000059	encerrada	HBO INVOICE CELULAR ABRIL-18 CP-2287401	80443.820000000007
+154	NEAI81801996-O	Karoline Castro Martins	OPEX	2018-5-9	2018-6-8	2018-6-8	Teliasonera	17900	3.5788000000000002	3.78230000000000022	67703.1699999999983	encerrada	CP-23006311	12064.5100000000002
+156	194558E194019	LEANDRO DUMBRA	OPEX	2018-4-25	2018-6-10	2018-6-11	VUBIQUITY MANEGEMENT LTDS	5064.72000000000025	3.32319999999999993	3.71399999999999997	18810.3700800000006	encerrada	TVOD  CP-2306307	3555.42999999999984
+166	198401	LEANDRO DUMBRA	OPEX	2018-5-24	2018-6-10	2018-6-11	VUBIQUITY MANEGEMENT LTDS	26470.5900000000001	3.48050000000000015	3.71399999999999997	98311.7712599999941	encerrada	TVOD CP-2306209	18582.3499999999985
+179	D020001RFZ	LISIANE MONTEIRO	OPEX	2018-4-12	2018-6-11	2018-6-11	MICROSOFT	82326.2299999999959	3.40799999999999992	3.71399999999999997	305759.618220000004	encerrada	REVENDA OFFICE 365 CP-2314844	49148.4499999999971
+120	20182201	Alice Medeiros	OPEX	2018-3-28	2018-6-17	2018-6-13	IBEX INSTITUTE FOR BUSINES EXCELLENT	12750.6000000000004	0.0100000000000000002	3.73499999999999988	47623.4910000000018	encerrada	CURSO UMA VIAGEM EM BUSCA DA EXCELÊNCIA	0
+157	9000161767	Karoline Castro Martins	OPEX	2018-5-21	2018-6-20	2018-6-13	Deutsche Telekom	500	3.75030000000000019	3.72299999999999986	1861.5	encerrada	CP-2314875	328.5
+182	T100233058	KAROLINE CASTRO MARTINS	OPEX	2018-5-5	2018-6-18	2018-6-13	VERIZON	45.2700000000000031	3.53080000000000016	3.72299999999999986	168.540210000000002	encerrada	CP-2341290	29.7399999999999984
+188	9034	LEANDRO DUMBRA	OPEX	2018-5-17	2018-6-17	2018-3-13	MEDIA NETWORKS LATIN AMÉRICA S.A.C	216698.040000000008	3.48030000000000017	3.72299999999999986	806766.802920000046	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS ABRIL 2018  CP-2341278	191443.470000000001
+187	9040	LEANDRO DUMBRA	OPEX	2018-5-17	2018-6-17	2018-6-13	MEDIA NETWORKS LATIN AMÉRICA S.A.C	8937.5	3.48030000000000017	3.72299999999999986	33274.3125	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS ABRIL 2018 CP-2341241	0
+192	9037	LEANDRO DUMBRA	OPEX	2018-5-17	2018-6-17	2018-6-13	MEDIA NETWORKS LATIN AMÉRICA S.A.C	1628.03999999999996	3.48030000000000017	3.72299999999999986	6061.1929199999995	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS ABRIL 2018 CP-2341396	0
+189	9036	LEANDRO DUMBRA	OPEX	2018-5-17	2018-6-17	2018-3-13	MEDIA NETWORKS LATIN AMÉRICA S.A.C	64649.489999999998	3.48030000000000017	3.72299999999999986	240690.051269999996	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS ABRIL 2018 CP-2341303	0
+191	9035	LEANDRO DUMBRA	OPEX	2018-5-17	2018-6-17	2018-6-13	MEDIA NETWORKS LATIN AMÉRICA S.A.C	5524.13000000000011	3.48030000000000017	3.72299999999999986	20566.3359899999996	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS ABRIL 2018 CP-2341372	0
+190	9039	LEANDRO DUMBRA	OPEX	2018-5-17	2018-6-17	2018-6-13	MEDIA NETWORKS LATIN AMÉRICA S.A.C	45375	3.48030000000000017	3.72299999999999986	168931.125	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS ABRIL 2018 CP-2341337	0
+178	100210093467	Olacir	OPEX	2018-6-1	2018-7-1	2018-7-3	EQUINIX	6712.32999999999993	0.0100000000000000002	3.9049999999999998	26211.6486499999992	encerrada	nao	4625.60000000000036
+181	100210092604	KAROLINE CASTRO MARTINS	OPEX	2018-6-1	2018-7-1	2018-7-3	EQUINIX	11828.8899999999994	3.7370000000000001	3.9049999999999998	46191.8154499999946	encerrada	CP-2341272	8151.52000000000044
+197	6000002088	Karoline Castro Martins	OPEX	2018-6-6	2018-7-2	2018-7-3	iBasis	7560	3.77519999999999989	3.9049999999999998	29521.7999999999993	encerrada	CP-2366016	5209.73999999999978
+186	200145	LEANDRO DUMBRA	OPEX	2018-5-31	2018-7-2	2018-7-3	VUBIQUITY MANEGEMENT LTDS	26470.5900000000001	3.73640000000000017	3.9049999999999998	103367.653949999993	encerrada	TVOD CP-2338809	0
+198	ALGARTEL900010028502559	Karoline Castro Martins	OPEX	2018-6-1	2018-7-2	2018-7-3	COGENT	8200	3.7370000000000001	3.9049999999999998	32021	encerrada	CP-2370063	5650.77999999999975
+184	L16440	LEANDRO DUMBRA	OPEX	2018-6-5	2018-7-4	2018-7-4	Brasil Distribuition LLC	119544.720000000001	3.48050000000000015	3.91800000000000015	468376.212960000033	encerrada	HBO INVOICE CELULAR MAIO-18 CP-2338745	0
+194	D020001RYY	PAULO ROBERTO	OPEX	2018-5-12	2018-7-11	2018-7-11	Microsoft Corporation	96105.3899999999994	3.73329999999999984	3.8384999999999998	368900.539514999953	encerrada	LICENÇA DO OFFICE 365 PARA REVENDA A CLIENTES	56969.1900000000023
+200	9000165835	KAROLINE CASTRO MARTINS	OPEX	2018-6-21	2018-7-19	2018-7-11	DEUTSCHE	500	3.73349999999999982	3.83499999999999996	1917.5	encerrada	null	341.399999999999977
+199	395889	OLACIR RIBEIRO DA COSTA	OPEX	2018-6-8	2018-7-8	2018-7-9	CROWN CASTLE (FIBERNET)	11456.5300000000007	0.0100000000000000002	3.8879999999999999	44542.9886400000032	encerrada	CP-2375253	7923.61999999999989
+196	9000164215	Karoline Castro Martins	OPEX	2018-6-8	2018-7-5	2018-7-5	Deutsche Telekom	0.209999999999999992	3.89999999999999991	3.94200000000000017	0.82782	encerrada	CP-2366004	0.149999999999999994
+183	T100234455	KAROLINE CASTRO MARTINS	OPEX	2018-6-5	2018-7-5	2018-7-5	VERIZON	45.2700000000000031	3.74239999999999995	3.94200000000000017	178.45434000000003	encerrada	CP-2341302	31.4899999999999984
+195	20180634730	Karoline Castro Martins	OPEX	2018-6-8	2018-7-5	2018-7-5	Syniverse	18052.7900000000009	3.89999999999999991	3.94200000000000017	71164.0981800000009	encerrada	CP-2365997	12558.3999999999996
+215	100210095506	KAROLINE CASTRO MARTINS	OPEX	2018-7-1	2018-8-1	2018-8-2	EQUINIX	2120	3.85579999999999989	3.74199999999999999	7933.03999999999996	encerrada	CP-2436525	1399.95000000000005
+180	100210088947	KAROLINE CASTRO MARTINS	OPEX	2018-6-1	2018-7-1	2018-7-3	EQUINIX	3487.73999999999978	3.7370000000000001	3.9049999999999998	13619.6246999999985	encerrada	CP-2341260	2403.4699999999998
+201	29005091	Claudio Adriano Portes	FINANCEIRA	2018-6-19	2018-7-2	2018-7-3	Standard & Poors Financial Services, LLC	20000	0.0100000000000000002	3.9049999999999998	78100	encerrada	null	13782.3899999999994
+185	L16437	LEANDRO DUMBRA	OPEX	2018-6-5	2018-7-4	2018-7-4	Brasil Distribuition LLC	76474.1199999999953	3.48050000000000015	3.91800000000000015	299625.602160000009	encerrada	HBO INVOICE TELECOM MAIO-18 CP-2338798	0
+203	20180534730A	KAROLINE CASTRO MARTINS	OPEX	2018-5-10	2018-7-12	2018-7-11	SYNIVERSE	17424.0499999999993	3.55659999999999998	3.83499999999999996	66821.2317499999917	encerrada	CP-2396092	11897.1700000000001
+193	92537498	Karoline Castro Martins	CAPEX	2018-5-22	2018-7-21	2018-7-20	Coriant	5680.5600000000004	3.25	3.78500000000000014	21500.9196000000011	encerrada	Chamado CP-2314178	3938.55000000000018
+202	9254  9252   9251  9250  9249  9255	Leandro Dumbra	OPEX	2018-6-13	2018-7-23	2018-7-20	Media Networks Latin America S.A.C	334462.409999999974	3.74000000000000021	3.79499999999999993	1269284.84594999999	encerrada	SERVICIO DE PROCESAMIENTO DE DATOS MAIO 2018 -  CP-2381197	197121.390000000014
+208	6000002187	KAROLINE CASTRO MARTINS	OPEX	2018-7-2	2018-7-23	2018-7-20	iBasis	8722.79999999999927	3.85579999999999989	3.79499999999999993	33103.025999999998	encerrada	CP-2421259	5922.38000000000011
+212	D020001SIC	PAULO ROBERTO SILVA JUNIOR	OPEX	2018-6-12	2018-8-11	2018-8-8	Microsoft Corporation	103784.669999999998	3.72670000000000012	3.7589999999999999	390126.574529999983	encerrada	PAGAMENTO MICROSOFT REFERENTE A REVENDA DO OFFICE 365 - DESCONTO ACORDADO MICROSOFT 728,93	60339.5299999999988
+225	052518u201001	OLACIR	OPEX	2018-5-25	2018-7-25	2018-7-25	Eckhoff and Company u2013 MONET CBP	210428.190000000002	0.0100000000000000002	3.75499999999999989	790157.853449999937	encerrada	NENHUMA	143344.839999999997
+222	070618‐01	Olacir	OPEX	2018-7-25	2018-9-4	2018-9-4	ECKHOFF AND COMPANY - MONET	48492	0.100000000000000006	4.18799999999999972	203084.495999999985	encerrada	0	35838.5199999999968
+204	139905895	Olacir Ribeiro da Costa	OPEX	2018-7-3	2018-8-2	2018-8-2	Amazon Web Services	2016.17000000000007	0.0100000000000000002	3.77800000000000002	7617.09025999999994	encerrada	nenhum	1373.1400000000001
+230	L55949	LEANDRO DUMBRA	OPEX	2018-8-2	2019-1-25	2018-9-3	BRASIL DISTRIBUTION LLC	173.699999999999989	3.87420000000000009	4.15200000000000014	304055.693280000007	encerrada	CP-2813493	45929.1100000000006
+213	T100235699	KAROLINE CASTRO MARTINS	OPEX	2018-7-5	2018-8-3	2018-8-2	TERREMARK	45.2700000000000031	3.90580000000000016	3.77499999999999991	170.89425	encerrada	CP-2436381	30.1600000000000001
+207	203408	Leandro Dumbra	OPEX	2018-6-30	2018-8-3	2018-8-2	Vubiquity Management Ltd USD	26470.5900000000001	3.73640000000000017	3.77499999999999991	99926.4772499999963	encerrada	CP-2405901	0
+217	ALGARTEL900010015002550	KAROLINE CASTRO MARTINS	OPEX	2018-7-1	2018-8-2	2018-8-2	COGENT	8200	3.85579999999999989	3.77800000000000002	30979.5999999999985	encerrada	CP-2436572	5467
+216	100210096717	KAROLINE CASTRO MARTINS	OPEX	2018-7-1	2018-8-1	2018-8-1	EQUINIX	12288.9500000000007	3.85579999999999989	3.74199999999999999	45985.2508999999991	encerrada	CP-2436541	8115.0600000000004
+224	100210099094	Olacir	OPEX	2018-7-26	2018-8-1	2018-8-1	EQUINIX - MONET	6012.32999999999993	0.0100000000000000002	3.74199999999999999	22498.1388599999991	encerrada	0	3970.26999999999998
+231	T100237149	KAROLINE CASTRO MARTINS	OPEX	2018-8-5	2018-9-4	2018-9-4	TERREMARK	45.2700000000000031	3.72009999999999996	4.18799999999999972	189.590759999999989	encerrada	CP-2472626	33.4600000000000009
+223	397766	Olacir	OPEX	2018-7-25	2018-8-7	2018-8-7	Fibernet Direct Florida LLC - MONET	9389.25	0.0100000000000000002	3.72949999999999982	35017.2078750000001	encerrada	0	6179.52000000000044
+211	205063	Leandro Dumbra	OPEX	2018-7-12	2018-8-10	2018-8-8	Vubiquity Management Ltd USD	26470.5900000000001	3.85999999999999988	3.7589999999999999	99502.9478099999978	encerrada	CP-2424544	0
+209	20180734730	KAROLINE CASTRO MARTINS	OPEX	2018-7-10	2018-8-8	2018-8-8	Syniverse	12901.9599999999991	3.86920000000000019	3.7589999999999999	48498.4676399999953	encerrada	CP-2421256	8558.56999999999971
+372	6886	HAMILTON ALVES ESTEVAO	OPEX	2018-11-27	2019-1-7	2019-1-4	ELEMENTAL	4500	3.71709999999999985	3.73899999999999988	16825.5	encerrada	null	0
+241	20180834730	KAROLINE CASTRO MARTINS	OPEX	2018-8-10	2018-9-10	2018-9-10	SYNIVERSE	25927.0299999999988	3.80299999999999994	4.10850000000000026	106521.202755000006	encerrada	CP-2522958	19037.6500000000015
+226	6000002264	KAROLINE CASTRO MARTINS	OPEX	2018-8-1	2018-8-15	2018-8-14	IBASIS	9498	3.75490000000000013	3.89299999999999979	36975.7139999999999	encerrada	CP-2467783	6525.14000000000033
+214	NEAI81803205-4	KAROLINE CASTRO MARTINS	OPEX	2018-7-17	2018-8-16	2018-8-10	TELIASONERA	10400	3.85789999999999988	3.88700000000000001	40424.8000000000029	encerrada	CP-2436475	7133.78999999999996
+221	9592	leandro dumbra	CAPEX	2018-7-19	2018-9-3	2018-9-3	MEDIA NETWROKS LATIN AMERICA S.A.C	1263	3.85519999999999996	4.15200000000000014	5243.97600000000057	encerrada	CP-2448895	792.129999999999995
+239	ALGARTEL900010015979662	KAROLINE CASTRO MARTINS	OPEX	2018-8-1	2018-9-2	2018-9-3	COGENT	8200	3.75490000000000013	4.15200000000000014	34046.4000000000015	encerrada	CP-2512656	6050.46000000000004
+219	9000169570	KAROLINE CASTRO MARTINS	OPEX	2018-7-23	2018-8-22	2018-8-22	DEUTSCHE	500	3.7793000000000001	4.06500000000000039	2032.50000000000023	encerrada	CP-2446621	358.680000000000007
+210	9000168522	KAROLINE CASTRO MARTINS	OPEX	2018-7-11	2018-8-10	2018-7-20	DEUTSCHE	2.25	3.84520000000000017	3.78500000000000014	8.51624999999999943	encerrada	CP-2421834	1.56000000000000005
+232	92544591	KAROLINE CASTRO MARTINS	CAPEX	2018-6-27	2018-9-3	2018-9-3	CORIANT	9132.85000000000036	3.25	4.15200000000000014	37919.593200000003	encerrada	CP-2388975	6738.77000000000044
+236	100210101254	Andressa Aparecida de OLiveira	OPEX	2018-8-6	2018-9-3	2018-9-3	Equinix Invoice	6612.94999999999982	0.100000000000000006	4.15200000000000014	27456.9684000000016	encerrada	0	4879.43000000000029
+233	92544592	KAROLINE CASTRO MARTINS	CAPEX	2018-6-27	2018-9-3	2018-9-3	CORIANT	13249.2600000000002	3.25	4.15200000000000014	55010.9275200000047	encerrada	CP-2388988	9776.11000000000058
+234	92544593	KAROLINE CASTRO MARTINS	CAPEX	2018-6-27	2018-9-3	2018-9-3	CORIANT	32190.9700000000012	3.25	4.15200000000000014	133656.90744000001	encerrada	CP-2389010	23752.4500000000007
+235	145992293	Andressa	OPEX	2018-8-6	2018-9-2	2018-9-3	AWS - Amazon Web Service	1571.15000000000009	0.100000000000000006	4.15200000000000014	6523.41480000000047	encerrada	0	1184.07999999999993
+205	L33781	LEANDRO DUMBRA	OPEX	2018-7-5	2019-1-25	2018-8-2	BRASIL DISTRIBUTION LLC	182.099999999999994	3.87420000000000009	3.77499999999999991	282922.848750000005	encerrada	CP-2813541 Fechado no dia 24-01-2019	0
+206	L33784	LEANDRO DUMBRA	OPEX	2018-7-5	2019-1-25	2018-8-2	BRASIL DISTRIBUTION LLC	92	3.87420000000000009	3.77499999999999991	441906.520750000025	encerrada	CP-2813350 Fechado no dia 24-01-2019	0
+218	9588; 9489; 9590; 9591; 9593; 9594.	Leandro Dumbra	OPEX	2018-7-19	2018-9-3	2018-9-3	Media Networks Latin American S.A.C.	331503.450000000012	3.85519999999999996	4.15200000000000014	1376402.32440000004	encerrada	CP-2440105	207912.329999999987
+228	100210100953	KAROLINE CASTRO MARTINS	OPEX	2018-8-1	2018-9-3	2018-9-3	EQUINIX	10688.9500000000007	3.75490000000000013	4.15200000000000014	44380.5204000000012	encerrada	CP-2467848	7886.94999999999982
+240	9000173178	KAROLINE CASTRO MARTINS	OPEX	2018-8-15	2018-9-13	2018-9-13	DEUTSCHE	500	3.88120000000000021	4.15700000000000003	2078.5	encerrada	CP-2512640	367.420000000000016
+238	CP-2482940	Andressa Aparecida de Oliveira	OPEX	2018-8-9	2018-10-3	2018-10-2	Fibernet Direct Florida LLC - Crown Castle	9389.25	0.100000000000000006	3.97299999999999986	37303.4902499999953	encerrada	null	6634.18000000000029
+367	NEIA81805110-A	KAROLINE CASTRO MARTINS	OPEX	2018-11-8	2018-12-17	2018-12-17	TELIACARRIER	13579.5400000000009	3.75919999999999987	3.91800000000000015	53204.6377200000061	encerrada	CP-2747869	9389.06999999999971
+371	109610782	CINARA NUBIA SILVA	OPEX	2018-10-26	2018-12-6	2018-12-6	SHUTTERSTOCK	5196	0.0100000000000000002	3.9049999999999998	20290.3799999999974	encerrada	null	3657.76999999999998
+368	6000002593	KAROLINE CASTRO MARTINS	OPEX	2018-12-3	2018-12-18	2018-12-18	IBASIS	9498	3.86330000000000018	3.87400000000000011	36795.2520000000004	encerrada	CP-2747900	6551.96000000000004
+369	92567220	KAROLINE CASTRO MARTINS	CAPEX	2018-11-27	2019-1-26	2018-12-21	CORIANT	4974.84000000000015	3.86549999999999994	3.89299999999999979	19367.0521200000003	encerrada	CP-2729673	3417.7199999999998
+370	92567221	KAROLINE CASTRO MARTINS	CAPEX	2018-11-27	2019-1-26	2018-12-21	CORIANT	128.889999999999986	3.86549999999999994	3.89299999999999979	501.768769999999904	encerrada	CP-2729715	88.5499999999999972
+386	10902	LEANDRO DUMBRA	CAPEX	2018-1-18	2019-1-18	2019-1-18	MEDIA NETWORKS	1479	3.8626999999999998	3.75150000000000006	5548.46849999999995	encerrada	Chamado CP-2796163	850.190000000000055
+279	D020001TKX	PAULO ROBERTO	OPEX	2018-8-12	2018-10-11	2018-10-3	Microsoft Corporation	161274.239999999991	3.86249999999999982	3.89599999999999991	628324.439039999968	encerrada	PAGAMENTO MICROSOFT REFERENTE A REVENDA DO OFFICE 365 CP-2563530	99454.4499999999971
+261	T100238312	KAROLINE CASTRO MARTINS	OPEX	2018-9-5	2018-10-5	2018-10-5	TERREMARK	45.2700000000000031	4.16519999999999957	3.86699999999999999	175.059089999999998	encerrada	CP-2543091	30.8900000000000006
+264	20180934730	KAROLINE CASTRO MARTINS	OPEX	2018-9-10	2018-10-9	2018-10-5	SYNIVERSE	14967.0300000000007	4.14599999999999991	3.86699999999999999	57877.5050100000008	encerrada	CP-2551394	10213.7000000000007
+276	9000176029	KAROLINE CASTRO MARTINS	OPEX	2018-9-11	2018-10-11	2018-10-5	DEUSTCHE	0.450000000000000011	4.10069999999999979	3.86699999999999999	1.74015000000000009	encerrada	CP-2557143	0.309999999999999998
+281	9000177033	KAROLINE CASTRO MARTINS	OPEX	2018-9-20	2018-10-19	2018-10-5	DEUTSCHE	500	4.13510000000000044	3.86699999999999999	1933.5	encerrada	CP-2586201	341.20999999999998
+284	211772	LEANDRO DUMBRA	OPEX	2018-9-27	2018-10-25	2018-10-5	VUBIQUITY	26470.5900000000001	4.18119999999999958	3.86699999999999999	102361.771529999998	encerrada	CP-2596715	15354.2700000000004
+280	10125; 10127; 10128; 10129; 10130; 10131	Leandro Dumbra	OPEX	2018-9-19	2018-10-19	2018-10-5	Media Networks Latin America S.A.C.	316675.5	4.1346999999999996	3.86699999999999999	1224584.1584999999	encerrada	CP-2580755	0
+283	10126	LEANDRO DUMBRA	CAPEX	2018-9-19	2018-10-19	2018-10-5	MEDIA NETWORKS LATIN AMERICA S.A.C	801	4.1346999999999996	3.86699999999999999	3097.4670000000001	encerrada	Chamado CP-2591216	0
+399	006886	LEANDRO DUMBRA	OPEX	2017-1-3	2019-1-25	2019-1-28	ELEMENTAL TECHNOLOGIES LLC	625	3.71399999999999997	3.75800000000000001	2348.75	encerrada	CP-2825489	414.490000000000009
+275	401570	Andressa Aparecida de Oliveira	OPEX	2018-9-12	2018-10-8	2018-10-2	Fiber.CrownCastle.com	9389.25	0.100000000000000006	3.97299999999999986	37303.4902499999953	encerrada	0	6634.18000000000029
+377	T100241520	KAROLINE CASTRO MARTINS	OPEX	2018-12-5	2019-1-4	2019-1-3	TERREMARK	45.2700000000000031	3.83130000000000015	3.75999999999999979	170.21520000000001	encerrada	CP-2784250	30.8299999999999983
+263	090518201001	Andressa Aparecida de Oliveira	OPEX	2018-9-6	2018-11-5	2018-11-5	Monet Cable Group	74492	0.100000000000000006	3.7240000000000002	277408.208000000042	encerrada	0	48954.5
+282	L78269	LEANDRO DUMBRA	OPEX	2018-9-24	2019-1-25	2018-10-5	BRASIL DISTRIBUTION LLC	5483.5	3.87420000000000009	3.86699999999999999	447062.47788000002	encerrada	CP-2813440 Fechado no dia 24-01-2019	0
+220	8443, 8884, 9038,9253	Leandro Dumbra	CAPEX	2018-3-14	2018-9-3	2018-9-3	Media Networks Latin American S.A.C	7296	3.73640000000000017	4.15200000000000014	30292.992000000002	encerrada	CP-2448826 - Considerar: Invoice 8443 - Dolar:  3,2457; invoice 8884 - Dolar: 3,3232; invoice 9038 - Dolar: 3,4805; invoice 9253 - Dolar: 3,7364	0
+256	1,0021E+11	KAROLINE CASTRO MARTINS	OPEX	2018-8-1	2018-8-31	2018-9-3	EQUINIX	2120	3.75490000000000013	4.15200000000000014	8802.23999999999978	encerrada	null	1564.20000000000005
+259	100210110988	KAROLINE CASTRO MARTINS	OPEX	2018-9-1	2018-10-1	2018-10-1	EQUINIX	2120	4.13529999999999998	4.04199999999999982	8569.03999999999905	encerrada	CP-2543015	1512.19000000000005
+268	F001-00009995	Leandro Dumbra	OPEX	2018-9-4	2018-10-1	2018-10-1	Media Networks	60098.4100000000035	3.75	4.04199999999999982	242917.773220000003	encerrada	Chamado CP-2552538.	0
+378	92570865	KAROLINE CASTRO MARTINS	CAPEX	2018-12-21	2019-2-19	2019-2-19	CORIANT	17289.6899999999987	3.879	3.72999999999999998	64490.5436999999947	encerrada	CP-2788134	11380.7000000000007
+237	D020001T1D	PAULO ROBERTO SILVA JUNIOR	OPEX	2018-7-12	2018-9-10	2018-9-10	Microsoft Corporation	120987.020000000004	3.81749999999999989	4.10850000000000026	497075.171670000069	encerrada	LICENÇAS OFFICE 365 PARA REVENDA A CLIENTES CP-2482867	77117.7899999999936
+258	NEAI81803584-K	KAROLINE CASTRO MARTINS	OPEX	2018-8-13	2018-9-12	2018-9-12	TELIACARRIER	11409.0599999999995	3.84719999999999995	4.14299999999999979	47267.7355799999932	encerrada	CP-2538977	8341.3700000000008
+375	217670	LEANDRO DUMBRA	OPEX	2018-12-18	2019-1-18	2019-1-18	VUBIQUITY	26470.5900000000001	3.8626999999999998	3.75150000000000006	99304.4183849999972	encerrada	Chamado CP-2775509	26139.9000000000015
+267	F001-00009987	Leandro Dumbra	OPEX	2018-9-4	2018-10-1	2018-10-1	Media Networks	8937.5	3.75	4.04199999999999982	36125.375	encerrada	Chamado CP-2552486.	0
+242	208654	LEANDRO DUMBRA	OPEX	2018-8-22	2018-9-20	2018-9-20	VUBIQUITY	26470.5900000000001	3.71550000000000002	4.11000000000000032	108794.12490000001	encerrada	Chamado 2524753	16425.9300000000003
+265	6000002345	KAROLINE CASTRO MARTINS	OPEX	2018-9-10	2018-9-25	2018-9-21	IBASIS	9498	4.14599999999999991	4.05999999999999961	38561.8799999999974	encerrada	CP-2551405	6930.93000000000029
+274	L73501	Leandro Dumbra	OPEX	2018-9-4	2018-9-25	2018-9-21	Brasil Distribution LLC	72896.679999999993	3.85519999999999996	4.05999999999999961	295960.52079999994	encerrada	Chamado CP-2553248.	0
+277	1158 2267	Eliane Paula Mendes	OPEX	2014-2-2	2018-9-21	2018-9-21	TATA COMMUNICATIONS	36274.6200000000026	4.16699999999999982	4.09499999999999975	148544.568900000013	encerrada	null	26470.5099999999984
+272	F001-00009986	Leandro Dumbra	OPEX	2018-9-4	2018-10-1	2018-10-1	Media Networks	45375	3.75	4.04199999999999982	183405.75	encerrada	Chamado CP-2552770.	0
+271	F001-00009990	Leandro Dumbra	OPEX	2018-9-4	2018-10-1	2018-10-1	Media Networks	5135.25	3.75	4.04199999999999982	20756.6804999999986	encerrada	Chamado CP-2552738.	0
+270	F001-00009989	Leandro Dumbra	OPEX	2018-9-4	2018-10-1	2018-10-1	Media Networks	1513.43000000000006	3.75	4.04199999999999982	6117.28405999999995	encerrada	Chamado CP-2552707.	0
+278	2018-1028	ENEIA	OPEX	2018-8-31	2018-9-30	2018-10-1	DUDA INC	380.5	0.0100000000000000002	4.04199999999999982	1537.98099999999999	encerrada	Criação de layout	271.410000000000025
+266	ALGARTEL900010016009661	KAROLINE CASTRO MARTINS	OPEX	2018-9-1	2018-10-2	2018-10-2	COGENT	8200	4.13529999999999998	3.97299999999999986	32578.5999999999985	encerrada	CP-2551427	5793.89000000000033
+260	100210106567	KAROLINE CASTRO MARTINS	OPEX	2018-9-1	2018-10-1	2018-10-1	EQUINIX	10688.9500000000007	4.13529999999999998	4.04199999999999982	43204.7358999999997	encerrada	CP-2543052	7624.38000000000011
+262	100210107628	Andressa Aparecida de Oliveira	OPEX	2018-9-6	2018-10-1	2018-10-1	EQUINIX	6489.61999999999989	0.100000000000000006	4.04199999999999982	26231.044039999997	encerrada	0	4629.02000000000044
+273	F001-00009988	Leando Dumbra	CAPEX	2018-9-4	2018-10-1	2018-10-1	Media Networks	1158	3.75	4.04199999999999982	4680.63599999999951	encerrada	Chamado CP-2553108.	0
+269	F001-00009984	Leandro Dumbra	OPEX	2018-9-4	2018-10-1	2018-10-1	Media Networks	201297.200000000012	3.75	4.04199999999999982	813643.282400000026	encerrada	Chamado CP-2552620.	0
+286	M1485	LEANDRO DUMBRA	OPEX	2018-10-3	2018-10-28	2018-10-8	BRASIL DISTRIBUTION LLC	72623.8899999999994	4.18119999999999958	3.76799999999999979	273646.817519999982	encerrada	CP-2607724	0
+287	M01488	LEANDRO DUMBRA	OPEX	2018-10-3	2018-10-28	2018-10-8	BRASIL DISTRIBUTION LLC	110829.600000000006	4.18119999999999958	3.76799999999999979	417605.93280000001	encerrada	CP-2607703	0
+285	NEAI81803997-S	KAROLINE CASTRO MARTINS	OPEX	2018-9-14	2018-10-12	2018-10-8	TELIACARRIER	11670.8799999999992	4.1637000000000004	3.76799999999999979	43975.8758399999933	encerrada	CP-2605161	8042
+337	D020001UO4	PAULO ROBERTO	OPEX	2018-10-12	2018-12-11	2018-12-11	MICROSOFT COPRPORATION	193883.670000000013	3.77800000000000002	3.90799999999999992	757697.382360000047	encerrada	REVENDA DO OFFICE 365 PARA CLIENTES DA ALGAR TELECOM - CP-2698620	116101.970000000001
+379	92570866	KAROLINE CASTRO MARTINS	CAPEX	2018-12-21	2019-2-19	2019-2-19	CORIANT	4804.4399999999996	3.879	3.72999999999999998	17920.5612000000001	encerrada	CP-2788146	3162.46000000000004
+290	L55949	LEANDRO DUMBRA	OPEX	2018-8-15	2018-10-28	2018-10-25	BRASIL DISTRIBUTION LLC	5622.55000000000018	3.75430000000000019	3.72100000000000009	20921.5085500000023	encerrada	Chamado CP-2627790	0
+289	L33781	LEANDRO DUMBRA	OPEX	2018-7-15	2018-10-28	2018-10-25	BRASIL DISTRIBUTION LLC	5438.44999999999982	3.73640000000000017	3.72100000000000009	20236.4724500000011	encerrada	Chamado CP-2627747	0
+288	L33784	LEANDRO DUMBRA	OPEX	2018-7-15	2018-10-28	2018-10-25	BRASIL DISTRIBUTION LLC	4172.89999999999964	3.73640000000000017	3.72100000000000009	15527.3608999999997	encerrada	Chamado CP-2627672	0
+355	595949041525	Andressa Aparecida de Oliveira	OPEX	2018-12-3	2018-12-4	2018-12-3	Amazon Web Services	2760.92999999999984	0.100000000000000006	3.84149999999999991	9417.59090999999898	encerrada	0,0	1704.33999999999992
+299	2018-1242	Enéia M Morais Silva	OPEX	2018-9-30	2018-10-31	2018-10-31	DUDA INC	649.450000000000045	0.0100000000000000002	3.73899999999999988	2428.29354999999987	encerrada	CP-2631715 OC 7121477	428.519999999999982
+292	100210111849	Andressa Aparecida de Oliveira	OPEX	2018-10-15	2018-11-7	2018-10-31	EQUINIX - MONET	6312.94999999999982	0.100000000000000006	3.73899999999999988	23604.1200499999977	encerrada	0.0	4165.4399999999996
+293	403503	Andressa Aparecida de Oliveira	OPEX	2018-10-15	2018-11-1	2018-10-31	Fibernet Direct Florida LLC - MONET	9569.25	0.100000000000000006	3.73899999999999988	35779.4257500000022	encerrada	0.0	6314.02999999999975
+301	ALGA Taxes	Andressa Aparecida de Oliveira	OPEX	2018-10-26	2018-11-1	2018-10-31	Strome Networks LLC (Resurgence Infrastructure Group, LLC)	4403.25	0.100000000000000006	3.73899999999999988	16463.7517499999994	encerrada	0.0	2905.36999999999989
+294	ALGARTEL900010016169230	KAROLINE CASTRO MARTINS	OPEX	2018-10-1	2018-11-2	2018-10-31	COGENT	8200	4.00389999999999979	3.73899999999999988	30659.7999999999993	encerrada	CP-2637947	5410.56999999999971
+307	7123143	Wexley Cristian Albino	OPEX	2018-10-21	2018-12-5	2018-12-5	JFROG	3456	3.79999999999999982	3.8580000000000001	13333.2479999999996	encerrada	null	2352.92999999999984
+352	10621, 10622, 10623, 10624, 10626, 10627	LEANDRO DUMBRA	OPEX	2018-11-16	2018-12-16	2018-12-17	MEDIA NETWORKS	305856.450000000012	3.71709999999999985	3.91800000000000015	1198345.57110000006	encerrada	Chamado CP-2712767	0
+354	10625	LEANDRO DUMBRA	CAPEX	2018-11-16	2018-12-16	2018-12-17	MEDIA NETWORKS LATIN AMERICA	768	3.71709999999999985	3.91800000000000015	3009.02400000000034	encerrada	Chamado CP-2722152	0
+341	405429	Andressa Aparecida de Oliveira	OPEX	2018-11-16	2018-12-8	2018-12-8	Fibernet Direct Florida LLC - MONET	8775	0.100000000000000006	3.91999999999999993	34398	encerrada	0.0	6070.25
+351	20181134730	KAROLINE CASTRO MARTINS	OPEX	2018-11-9	2018-12-9	2018-12-10	SYNIVERSE	16627.5200000000004	3.73910000000000009	3.91999999999999993	65179.8784000000014	encerrada	CP-2709077	11502.3600000000006
+305	D020001U4K	PAULO ROBERTO	OPEX	2018-9-12	2018-11-10	2018-11-9	Microsoft Corporation	175148.940000000002	4.1532	3.76799999999999979	659961.205919999979	encerrada	PAGAMENTO MICROSOFT REFERENTE A REVENDA DO OFFICE 365 - CP-2663957	101125.860000000001
+295	9000180258	KAROLINE CASTRO MARTINS	OPEX	2018-10-15	2018-11-13	2018-11-13	DEUTSCHE	500	3.746	3.78799999999999981	1894	encerrada	CP-2637980	334.240000000000009
+304	20181034730	KAROLINE CASTRO MARTINS	OPEX	2018-10-10	2018-11-10	2018-11-12	SYNIVERSE	16619.2799999999988	3.73910000000000009	3.76399999999999979	62554.9699199999886	encerrada	CP-2663595	11039.1399999999994
+303	T100240053	KAROLINE CASTRO MARTINS	OPEX	2018-10-5	2018-11-4	2018-11-5	TERREMARK	45.2700000000000031	3.90470000000000006	3.7240000000000002	168.585480000000018	encerrada	CP-2663548	29.75
+335	100210118755	KAROLINE CASTRO MARTINS	OPEX	2018-11-1	2018-12-1	2018-12-3	EQUINIX	10688.9500000000007	3.71769999999999978	3.84149999999999991	41061.6014250000007	encerrada	CP-2696041	7275.03999999999996
+321	6000002449	KAROLINE CASTRO MARTINS	OPEX	2018-10-1	2018-11-19	2018-11-19	IBASIS	9498	3.71769999999999978	3.76500000000000012	35759.9700000000012	encerrada	CP-2683169	6356.52000000000044
+297	10311, 10308, 1037, 10306, 10305, 10310	LEANDRO DUMBRA	OPEX	2018-10-17	2018-11-15	2018-11-14	MEDIA NETWORKS LATIN AMERICA	311712.099999999977	4.0033000000000003	3.81749999999999989	1189960.94174999977	encerrada	Chamado CP-2643808	0
+298	F001-00009988	LEANDRO DUMBRA	OPEX	2018-9-4	2018-11-15	2018-11-14	MEDIA NETWORKS LATIN AMERICA	1158	3.75	3.81749999999999989	4420.66499999999996	encerrada	CP-2646357	0
+300	F001-10309	LEANDRO DUMBRA	CAPEX	2018-10-23	2018-11-15	2018-11-14	MEDIA NETWORKS LATIN AMERICA	321	4.0033000000000003	3.81749999999999989	1225.41750000000002	encerrada	Chamado CP-2654050.	0
+302	ALGA Taxes	Andressa Aparecida de Oliveira	OPEX	2018-10-26	2018-11-15	2018-11-14	Strome Networks LLC (Resurgence Infrastructure Group, LLC)	156.370000000000005	0.100000000000000006	3.81749999999999989	596.942474999999945	encerrada	0.0	105.340000000000003
+353	212924	LEANDRO DUMBRA	OPEX	2018-10-18	2018-11-19	2018-11-19	VUBIQUITY	26470.5900000000001	4.18119999999999958	3.76500000000000012	99661.77135000001	encerrada	Chamado CP-2643737	0
+306	62993684	Wexley Cristian Albino	OPEX	2018-9-28	2018-11-14	2018-11-14	ATLASSIAN	2000	3.79999999999999982	3.81749999999999989	7635	encerrada	null	1376.36999999999989
+333	100210113262	KAROLINE CASTRO MARTINS	OPEX	2018-10-1	2018-11-23	2018-11-23	EQUINIX	10888.9500000000007	4.00389999999999979	3.8035000000000001	41416.1213250000073	encerrada	CP-2696023	7308.73999999999978
+317	M22335	LEANDRO DUMBRA	OPEX	2018-11-5	2018-11-25	2018-11-23	BRASIL DISTRIBUTION LLC	105424.399999999994	3.71709999999999985	3.8035000000000001	400981.705399999977	encerrada	Chamado CP-2681016	0
+312	m22332	LEANDRO DUMBRA	OPEX	2018-11-5	2018-11-25	2018-11-23	BRASIL DISTRIBUTION LLC	71585.9600000000064	3.71709999999999985	3.8035000000000001	272277.198860000004	encerrada	Chamado CP-2681028	0
+308	78110348672	TIAGO RODRIGUES SILVA	OPEX	2018-9-28	2018-11-25	2018-11-23	LINKEDIN	15170	4.04999999999999982	3.8035000000000001	57699.0950000000012	encerrada	null	19233.0099999999984
+350	6000002522	KAROLINE CASTRO MARTINS	OPEX	2018-11-1	2018-11-29	2018-12-3	IBASIS	9498	3.71769999999999978	3.84149999999999991	36486.5670000000027	encerrada	CP-2709064	6464.17000000000007
+318	100210120566	Andressa Aparecida de Oliveira	OPEX	2018-11-7	2018-12-1	2018-12-3	EQUINIX INVOICE	6312.94999999999982	0.100000000000000006	3.84149999999999991	24251.1974249999985	encerrada	0.0	5581.02999999999975
+325	ALGARTEL900010016759933	KAROLINE CASTRO MARTINS	OPEX	2018-11-1	2018-12-2	2018-12-3	COGENT	8200	3.71769999999999978	3.84149999999999991	31500.2999999999993	encerrada	CP-2683178	5581.02999999999975
+336	100210119555	KAROLINE CASTRO MARTINS	OPEX	2018-11-1	2018-12-1	2018-12-3	EQUINIX DEZ	2120	3.71769999999999978	3.84149999999999991	8143.97999999999956	encerrada	CP-2696055	1442.90000000000009
+334	100210114672	KAROLINE CASTRO MARTINS	OPEX	2018-10-1	2018-11-23	2018-11-23	EQUINIX	2120	4.00389999999999979	3.8035000000000001	8063.42000000000007	encerrada	CP-2696010	1422.96000000000004
+356	109610782	Lucas Rafael de Castro Ferreira	OPEX	2018-10-26	2018-12-6	2018-12-6	Shutterstock Netherlands	5196	3.70330000000000004	3.9049999999999998	20290.3799999999974	encerrada	Banco de imagens Netsabe	3657.76999999999998
+359	215484	LEANDRO DUMBRA	OPEX	2018-11-26	2018-12-22	2018-12-21	VUBIQUITY	26470.5900000000001	3.71709999999999985	3.89299999999999979	103050.006869999997	encerrada	Chamado CP-2731415	0
+340	2018-1273	ENEIA MENDES DE MORAIS SILVA	OPEX	2018-10-31	2018-11-30	2018-12-3	DUDA INC	1239.03999999999996	3.69059999999999988	3.84149999999999991	4759.77215999999953	encerrada	null	843.309999999999945
+401	13022	MICHELLE DE ARAUJO VIEIRA	OPEX	2018-12-31	2019-1-25	2019-1-25	MAIL2WORLD INC	82.3199999999999932	3.87420000000000009	3.79999999999999982	312.815999999999974	encerrada	LICENCIAMENTO DE SOFTWARE PADRAO SEM TRANSFERENCIA DE TECNOLOGIA - REVENDA	56.3900000000000006
+403	18 002	Claudio Adriano Portes	OPEX	2019-1-3	2019-1-22	2019-1-22	Banco do BRASIL Securities	3292.09000000000015	0.0100000000000000002	3.75439999999999996	12359.8226960000011	encerrada	Projeto MG Reembolso de despesas	2181.15000000000009
+373	2018-1520	Eneia Mendes de Morais Silva	OPEX	2018-11-30	2018-12-31	2018-10-2	Duda Mobile	1534.61999999999989	3.85749999999999993	3.89500000000000002	5977.34490000000005	encerrada	null	1054.82999999999993
+416	20190134730	Karoline Castro Martins	OPEX	2019-1-10	2019-2-9	2019-2-11	Syniverse	18568.0099999999984	3.69309999999999983	3.74400000000000022	69518.6294400000043	encerrada	null	12268.0200000000004
+376	20181234730	KAROLINE CASTRO MARTINS	OPEX	2018-12-10	2019-1-9	2019-1-9	SYNIVERSE	17198.7599999999984	3.89639999999999986	3.68599999999999994	63394.6293599999917	encerrada	CP-2784213	11489.5200000000004
+384	M44529	LEANDRO DUMBRA	OPEX	2018-12-10	2019-1-10	2019-1-10	BRASIL DISTRIBUTION LLC	101877.789999999994	3.8626999999999998	3.69499999999999984	376438.434049999982	encerrada	Chamado CP-2793047	69374.070000000007
+385	m44532	LEANDRO DUMBRA	OPEX	2019-1-10	2019-1-10	2019-1-10	BRASIL DISTRIBUTION LLC	70971.1100000000006	3.8626999999999998	3.69499999999999984	262238.251449999982	encerrada	Chamado CP-2793067	48328.0500000000029
+387	D020001V7I	PAULO ROBERTO	OPEX	2018-11-12	2019-1-10	2019-1-10	MICROSOFT CORPORATION	171411.630000000005	3.73609999999999998	3.69499999999999984	633365.97285000002	encerrada	PAGAMENTO MICROSOFT REFERENTE A REVENDA DO OFFICE 365 - CP-2799026	97714.0299999999988
+398	9010004606	NOEME FERREIRA SILVA	OPEX	2018-12-6	2018-1-3	2019-1-3	INGRAN	79995	0.0100000000000000002	3.82500000000000018	305980.875	encerrada	null	55862.489999999998
+383	10905; 10901; 10898; 10899; 10900; 10903	LEANDRO DUMBRA	OPEX	2018-12-18	2019-1-18	2019-1-18	MEDIA NETWORKS	302171.239999999991	3.8626999999999998	3.75150000000000006	1133595.40685999999	encerrada	Chamado CP-2792979	173700.820000000007
+394	L55952	LEANDRO DUMBRA	OPEX	2018-8-2	2019-1-25	2019-1-25	BRASIL DISTRIBUTION LLC	238	3.87420000000000009	3.75800000000000001	894.403999999999996	encerrada	CP-2813397	0
+408	152028776	ANDRESSA AP DE OLIVEIRA	OPEX	2018-10-3	2018-12-3	2018-12-3	AMAZON	1695.21000000000004	0.100000000000000006	3.84149999999999991	6512.14921500000037	encerrada	null	0
+409	155165472	ANDRESSA AP DE OLIVEIRA	OPEX	2018-11-3	2018-12-3	2018-12-3	AMAZON	2451.53999999999996	0.100000000000000006	3.84149999999999991	9417.59090999999898	encerrada	null	0
+229	L55952	LEANDRO DUMBRA	OPEX	2018-8-3	2019-1-26	2018-9-3	BRASIL DISTRIBUTION LLC	238	3.87420000000000009	4.15200000000000014	484683.429360000009	encerrada	CP-2813397	14642.7600000000002
+291	L55952	LEANDRO DUMBRA	OPEX	2018-8-3	2019-1-26	2018-10-25	BRASIL DISTRIBUTION LLC	238	3.87420000000000009	3.72100000000000009	33219.6740200000058	encerrada	CP-2813397	0
+407	95949	Andressa Aparecida de Oliveira	OPEX	2018-12-3	2018-12-10	2018-12-10	Amazon Web Services	2760.92999999999984	0.100000000000000006	3.91999999999999993	10822.8455999999987	encerrada	null	1951.04999999999995
+393	L33784	LEANDRO DUMBRA	OPEX	2018-7-5	2019-1-25	2019-1-25	BRASIL DISTRIBUTION LLC	92	3.87420000000000009	3.75800000000000001	345.73599999999999	encerrada	CP-2813350	0
+389	18667872637	Andressa Aparecida de Oliveira	OPEX	2019-1-8	2019-1-8	2019-1-7	Fibernet Direct Florida LLC - MONET	9389.25	0.100000000000000006	3.73899999999999988	35106.4057499999981	encerrada	0	6528.32999999999993
+410	11107	LEANDRO DUMBRA	CAPEX	2019-1-16	2019-2-16	2019-2-18	MEDIA NETWORKS	2505	3.87420000000000009	3.7387999999999999	9365.69399999999951	encerrada	Chamado CP-2849179	0
+391	M62201	LEANDRO DUMBRA	OPEX	2019-1-8	2019-1-25	2019-1-25	BRASIL DISTRIBUTION LLC	70916.6499999999942	3.87420000000000009	3.75800000000000001	266504.770699999994	encerrada	CP-2812504 Fechado no dia 24-01-2019	0
+395	L78269	LEANDRO DUMBRA	OPEX	2018-9-24	2019-1-25	2019-1-25	BRASIL DISTRIBUTION LLC	5483.5	3.87420000000000009	3.75800000000000001	20606.9929999999986	encerrada	CP-2813440	0
+396	L55949	LEANDRO DUMBRA	OPEX	2018-8-2	2019-1-25	2019-1-25	BRASIL DISTRIBUTION LLC	173.099999999999994	3.87420000000000009	3.75800000000000001	650.509799999999927	encerrada	CP-2813493	0
+390	L33781	LEANDRO DUMBRA	OPEX	2018-7-5	2019-1-25	2019-1-25	BRASIL DISTRIBUTION LLC	182.099999999999994	3.87420000000000009	3.75800000000000001	684.33179999999993	encerrada	CP-2813541	0
+392	M62195	LEANDRO DUMBRA	OPEX	2019-1-8	2019-1-25	2019-1-25	BRASIL DISTRIBUTION	99967.2100000000064	3.87420000000000009	3.75800000000000001	375676.775179999997	encerrada	CP-2812856 Fechado no dia 24-01-2019	0
+400	9075	RENATA MENDES	OPEX	2018-5-31	2019-2-4	2019-2-4	SWISSOTEL	3690.76999999999998	3.7370000000000001	3.68889999999999985	13614.881453	encerrada	LANÇAMENTO ITW MONET	2402.63000000000011
+388	161968201	Andressa Aparecida de Oliveira	OPEX	2019-1-7	2019-2-2	2019-2-1	Amazon Web Services, Inc. Invoice	4125.46000000000004	0.100000000000000006	3.66999999999999993	15140.4382000000005	encerrada	0	0
+415	NEAI81805848-8	Karoline Castro Martins	OPEX	2018-12-7	2019-2-4	2019-2-4	Telia Carrier	14340.5599999999995	3.91780000000000017	3.68889999999999985	52900.8917839999995	encerrada	null	9335.45999999999913
+413	2018-1630	Eneia Mendes de Morais Silva	OPEX	2018-12-31	2019-2-1	2019-2-1	Duda	4001.59000000000015	3.87570000000000014	3.66999999999999993	14685.8353000000006	encerrada	null	2623.4699999999998
+414	D020001VRF	PAULO ROBERTO	OPEX	2018-11-12	2019-2-10	2019-2-11	MICROSOFT	187749.25	3.90070000000000006	3.74400000000000022	702933.192000000039	encerrada	REVENDA OFFICE 365	107710.449999999997
+381	92570869	KAROLINE CASTRO MARTINS	CAPEX	2018-12-21	2019-2-19	2019-2-19	CORIANT	15342.5200000000004	3.879	3.72999999999999998	57227.5996000000014	encerrada	CP-2788174	1099.00999999999999
+382	92570871	KAROLINE CASTRO MARTINS	CAPEX	2018-12-21	2019-2-19	2019-2-19	CORIANT	4203.22000000000025	3.879	3.72999999999999998	15678.0106000000014	encerrada	CP-2788183	11380.7000000000007
+380	92570867	KAROLINE CASTRO MARTINS	CAPEX	2018-12-21	2019-2-19	2019-2-19	CORIANT	17289.6800000000003	3.879	3.72999999999999998	64490.5063999999984	encerrada	CP-2788165	11380.7000000000007
+404	11103; 11104; 11105; 11106; 11108; 11109	LEANDRO DUMBRA	OPEX	2019-1-16	2019-2-16	2019-2-18	MEDIA NETWORKS	298523.409999999974	3.87420000000000009	3.7387999999999999	1116119.32530799997	encerrada	Chamado CP-2846579	0
+411	221024	LEANDRO DUMBRA	OPEX	2019-1-21	2019-2-21	2019-2-22	VUBIQUITY	26470.5900000000001	3.87420000000000009	3.746	99158.8301400000055	encerrada	Chamado CP-2849278	0
+435	100210128739	Karoline Castro Martins	OPEX	2019-1-1	2019-2-25	2019-2-25	Equinix, INC	11097.9300000000003	3.87480000000000002	3.73799999999999999	41484.062340000004	encerrada	CP - 2907118 Vencimento 28-02-2019 que pediram para antecipar	7362.84000000000015
+417	100210137435	Andressa Aparecida de Oliveira	OPEX	2019-2-14	2019-3-3	2019-3-8	EQUINIX - MONET	6312.94999999999982	0.100000000000000006	3.8879999999999999	24544.7495999999992	encerrada	0	4331.4399999999996
+397	409358	Andressa Aparecida de Oliveira	OPEX	2019-1-9	2019-2-7	2019-2-8	INVOICE EM DOLARES AMERICANOS DA EMPRESA Fibernet Direct Florida LLC - MONET	10103.5	0.100000000000000006	3.72569999999999979	37642.6099499999982	encerrada	0.1	6642.82999999999993
+426	2018-1520	CARLA APARECIDA ROCHA	OPEX	2018-11-30	2019-1-2	2019-1-2	DUDA	1534.61999999999989	0.0100000000000000002	3.89500000000000002	5977.34490000000005	encerrada	null	1077.53999999999996
+427	Adiantamento	JESSICA VIEIRA SALIM	OPEX	2018-2-25	2019-1-11	2019-1-14	TUCOWS	3000	3.64999999999999991	3.73899999999999988	11217	encerrada	null	2022.09999999999991
+425	1002111	MILENA APARECIDA	OPEX	2018-12-1	2019-1-2	2019-1-2	EQUINIX	2120	3.86330000000000018	3.89500000000000002	8257.39999999999964	encerrada	null	1488.56999999999994
+419	PROFORMA INVOICE	JESSICA SALIM - GUILHERME RELA	OPEX	2019-2-4	2019-2-11	2019-2-11	TUCOWS.COM CO.	10000	3.64999999999999991	3.74400000000000022	37440	encerrada	CHAMADO 2872749	6607.06999999999971
+420	6000002747	Karoline Castro Martins	OPEX	2019-2-1	2019-2-16	2019-2-18	Ibasis	9498	3.65189999999999992	3.7387999999999999	35511.1224000000002	encerrada	null	6328.35999999999967
+428	7979	LEANDRO DUMBRA	CAPEX	2018-1-15	2019-2-18	2019-2-18	MEDIA NETWORKS	3681	3.87420000000000009	3.7387999999999999	13762.5227999999988	encerrada	Chamado CP-2892091	0
+429	8243	LEANDRO DUMBRA	CAPEX	2018-2-15	2019-2-18	2019-2-18	MEDIA NETWORKS	3480	3.87420000000000009	3.7387999999999999	13011.0239999999994	encerrada	Chamado CP-2892179	0
+424	M78308	LEANDRO DUMBRA	OPEX	2019-2-6	2019-2-25	2019-2-25	BRASIL DISTRIBUTION LLC	71003.5899999999965	3.65129999999999999	3.73799999999999999	265411.419419999991	encerrada	Chamado CP-2891356	0
+423	M78310	LEANDRO DUMBRA	OPEX	2019-2-6	2019-2-25	2019-2-25	BRASIL DISTRIBUTION LLC	100453.639999999999	3.65129999999999999	3.73799999999999999	375495.706319999998	encerrada	Chamado CP-2891197	0
+433	ALGARTEL900010026004144	Karoline Castro Martins	OPEX	2018-12-1	2019-2-21	2019-2-22	Cogent	10831.5900000000001	3.86330000000000018	3.746	40575.1361400000023	encerrada	CP - 2902003 Solicitado Antecipação para 21-02-2019 e fechamos em 22-02-2019	7160.32999999999993
+432	ALGARTEL900010028246451	Karoline Castro Martins	OPEX	2019-1-1	2019-2-21	2019-2-22	Cogent	11492.8600000000006	3.87480000000000002	3.746	43052.2535600000047	encerrada	CP-2901727 Solicitado antecipar para 21-02-2019. Fechamos em 22-02-2019	7597.47000000000025
+430	29005634	Claudio Adriano Portes	FINANCEIRA	2019-2-12	2019-3-14	2019-3-14	STANDARD & POORS FINANCIAL SERVICES	21084.9399999999987	0.0100000000000000002	3.83499999999999996	80860.7448999999906	encerrada	EMISSÃO DE RATING PARA EMISSÃO DE DEBENTURES	14310.8799999999992
+431	6000002668	Karoline Castro Martins	OPEX	2019-1-4	2019-2-28	2019-3-8	Ibasis	9498	3.76829999999999998	3.8879999999999999	36928.224000000002	encerrada	CP-2901466	6369.26000000000022
+422	411342	Andressa Aparecida de Oliveira	OPEX	2019-2-12	2019-3-10	2019-3-11	Fibernet Direct Florida LLC - MONET	9389.25	0.100000000000000006	3.85899999999999999	36233.1157499999972	encerrada	0	6394.09000000000015
+418	359546	KAROLINE CASTRO MARTINS	CAPEX	2019-1-24	2019-3-25	2019-3-25	SUBCOM	3567.82999999999993	3.79939999999999989	3.89400000000000013	13893.1300200000005	encerrada	CP-2881439	2504.5300000000002
+437	M44532	LEANDRO DUMBRA	OPEX	2018-12-6	2019-2-25	2019-2-25	BRASIL DISTRIBUTION LLC	1945.59999999999991	3.78330000000000011	3.73799999999999999	7272.65279999999984	encerrada	Chamado CP-2910004	0
+438	M44529; L78269; L55952; L33784	LEANDRO DUMBRA	OPEX	2018-12-6	2019-2-25	2019-2-25	BRASIL DISTRIBUTION LLC	2999.09999999999991	3.78330000000000011	3.73799999999999999	11210.6358	encerrada	Chamado CP-2910101	0
+434	100210123073	Karoline Castro Martins	OPEX	2018-12-1	2019-2-25	2019-2-25	Equinix, INC	11272.5799999999999	3.86330000000000018	3.73799999999999999	42136.9040400000013	encerrada	CP - 2906885 Vencimento 28-02-2019 que pediram para antecipar	7478.71000000000004
+467	261114	Taynara alves Vieira	OPEX	2019-2-1	2019-2-13	2019-2-13	MERIT NETWORK	495	0.0100000000000000002	3.72999999999999998	1846.34999999999991	encerrada	null	333.639999999999986
+446	T100242909	KAROLINE CASTRO MARTINS	OPEX	2019-2-5	2019-3-10	2019-3-11	TERREMARK	45.2700000000000031	3.6756000000000002	3.85899999999999999	174.696930000000009	encerrada	CP-2925796	30.8299999999999983
+452	121000248	ANDRESSA OLIVEIRA	OPEX	2019-5-31	2019-3-8	2019-3-8	Amazon Web Services	78.5699999999999932	0.0100000000000000002	3.8879999999999999	305.480159999999955	encerrada	null	55.240000000000002
+468	1,0021E+11	ANDRESSA APARECIDA DE OLIVEIRA	OPEX	2019-1-1	2019-2-1	2019-2-1	EQUINIX	6312.94999999999982	0.0100000000000000002	3.66999999999999993	23168.5264999999999	encerrada	null	4226.85999999999967
+472	5617	Gihane Alves Abadio Reis	OPEX	2019-3-2	2019-4-5	2019-4-5	Ultranet USA Telecom	979	3.7831999999999999	3.87800000000000011	3796.5619999999999	encerrada	Qualitor: CP-2980445	684.409999999999968
+454	9083932	MICHELLE DE ARAUJO VIEIRA	OPEX	2019-1-1	2019-2-27	2019-3-8	MAIL2WORLD INC	86.0999999999999943	3.71510000000000007	3.8879999999999999	334.756799999999942	encerrada	null	60.3500000000000014
+474	D020001WUM	Michelle de Araujo Vieira	OPEX	2019-2-12	2019-4-13	2019-4-11	Microsoft Corporation	200159.940000000002	3.73850000000000016	3.83800000000000008	768213.849720000057	encerrada	Custo com licenças para revenda do produto Office 365	118262.850000000006
+459	12941	MICHELLE DE ARAUJO VIEIRA	OPEX	2018-11-30	2019-2-27	2019-3-8	MAIL2WORLD INC	76.4399999999999977	3.85619999999999985	3.8879999999999999	297.19871999999998	encerrada	Licencas Pangia ISP email Service Ref Nov18 -  Presenca Digital	55.5799999999999983
+442	ECAL 19S - 60118293	RENATA MENDES	OPEX	2019-2-22	2019-3-1	2019-3-8	CAPACITY - EUROMONEY GLOBAL	11000	3.75919999999999987	3.8879999999999999	42768	encerrada	CH2914795 - PARTICIPAÇÃO DE EXECUTIVOS EM FEIRA DE NEGOCIOS	7547.3100000000004
+448	ECAL 19S 60118293	RENATA MENDES	OPEX	2019-2-22	2019-3-8	2019-1-8	CAPACITY - EUROMONEY GLOBAL	4000	3.75919999999999987	3.8879999999999999	15552	encerrada	CHAMADO 2930577	933.120000000000005
+440	NEIA81900208-4	KAROLINE CASTRO MARTINS	OPEX	2019-1-16	2019-3-2	2019-3-8	TELIACARRIER	15115.6200000000008	3.70489999999999986	3.8879999999999999	58769.5305599999992	encerrada	CP-2914406	10371.1100000000006
+441	ALGARTEL900010038466280	KAROLINE CASTRO MARTINS	OPEX	2019-2-1	2019-3-2	2019-3-8	COGENT	10219.8299999999999	3.65189999999999992	3.8879999999999999	39734.6990399999995	encerrada	CP-2914389 S	7012.02000000000044
+444	100210135306	KAROLINE CASTRO MARTINS	OPEX	2019-2-1	2019-3-7	2019-3-8	EQUINIX	10820.3099999999995	3.65189999999999992	3.8879999999999999	42069.3652799999982	encerrada	CP-2921629	7424.02000000000044
+445	100210134045	KAROLINE CASTRO MARTINS	OPEX	2019-2-1	2019-3-7	2019-1-8	EQUINIX	2120	3.65189999999999992	3.8879999999999999	8242.55999999999949	encerrada	CP-2921611	1454.56999999999994
+456	D020001WAW	Michelle de Araujo Vieira	OPEX	2019-1-12	2019-3-13	2019-3-13	MICROSOFT ONLINE INC	191953.279999999999	3.7134999999999998	3.83499999999999996	736140.828800000018	encerrada	LICENÇAS PARA REVENDA PRODUTO OFFICE 365	113118.429999999993
+439	20190234730	KAROLINE CASTRO MARTINS	OPEX	2019-2-8	2019-3-10	2019-3-11	SYNIVERSE	31355.7000000000007	3.71930000000000005	3.85899999999999999	121001.646300000008	encerrada	CP-2914356	21353.2799999999988
+460	9899065006	MICHELLE DE ARAUJO VIEIRA	OPEX	2019-2-7	2019-3-15	2019-3-15	MICROSOFT ONLINE INC	833.330000000000041	3.70129999999999981	3.8490000000000002	3207.48717000000033	encerrada	SERVICO DE SUPORTE LICENCAS OFFICE 365	491.480000000000018
+443	223021	LEANDRO DUMBRA	OPEX	2019-2-18	2019-3-18	2019-3-18	VUBIQUITY	26470.5900000000001	3.65129999999999999	3.82980000000000009	101377.06558200001	encerrada	Chamado CP-2920263	15206.5599999999995
+469	225901	LEANDRO DUMBRA	OPEX	2019-3-18	2019-4-19	\N	VUBIQUITY	26470.5900000000001	3.72529999999999983	\N	\N	aberta	Chamado CP-2963133	\N
+461	9899074819	MICHELLE DE ARAUJO VIEIRA	OPEX	2019-3-5	2019-4-4	2019-4-4	MICROSOFT ONLINE INC	833.330000000000041	3.78259999999999996	3.87000000000000011	3224.98710000000028	encerrada	SERVICO DE SUPORTE LICENCAS OFFICE 365	483.75
+449	M98618	LEANDRO DUMBRA	OPEX	2019-3-6	2019-3-25	2019-3-25	BRASIL DISTRIBUTION LLC	70695.6300000000047	3.72529999999999983	3.89400000000000013	275288.783220000041	encerrada	Chamado CP-2941068	50366.3799999999974
+450	M98620	LEANDRO DUMBRA	OPEX	2019-3-6	2019-3-25	2019-3-25	BRASIL DISTRIBUTION LLC	103293.899999999994	3.72529999999999983	3.89400000000000013	402226.446599999967	encerrada	Chamado CP-2941099	73590.6900000000023
+464	NEAI81900763-P	KAROLINE CASTRO MARTINS	OPEX	2019-2-11	2019-3-22	2019-3-25	TELIACARRIER	17585.880000000001	3.71839999999999993	3.89400000000000013	68479.4167200000084	encerrada	CP-2948044	12344.9400000000005
+457	13132	MICHELLE DE ARAUJO VIEIRA	OPEX	2019-2-28	2019-3-22	2019-3-25	MAIL2WORLD INC	103.739999999999995	3.73450000000000015	3.89400000000000013	403.963559999999973	encerrada	Licencas Pangia ISP email Service Ref Fev19 -  Presenca Digital	72.8199999999999932
+465	T100240768	KAROLINE CASTRO MARTINS	OPEX	2018-11-5	2019-3-22	2019-3-25	TERREMARK1	45.2700000000000031	3.69729999999999981	3.89400000000000013	176.281380000000013	encerrada	CP-2948075	31.7800000000000011
+466	T100242212	KAROLINE CASTRO MARTINS	OPEX	2019-1-5	2019-3-22	2019-3-25	TERREMARK	45.2700000000000031	3.76270000000000016	3.89400000000000013	176.281380000000013	encerrada	CP-2948098	31.7800000000000011
+475	11541; 11540; 11538; 11537; 11536; 11535	LEANDRO DUMBRA	OPEX	2019-3-26	2019-4-26	\N	MEDIA NETWORKS	288841.460000000021	3.73789999999999978	\N	\N	aberta	Chamado CP-2988044	\N
+436	100210131421	Karoline Castro Martins	OPEX	2019-1-1	2019-3-1	2019-3-8	Equinix, INC	2120	3.87480000000000002	3.8879999999999999	8242.55999999999949	encerrada	CP- 2907774	1485.8900000000001
+476	637; 9566	LEANDRO DUMBRA	OPEX	2015-9-9	2019-4-26	\N	MEDIA NETWORKS	2199.75	3.73789999999999978	\N	\N	aberta	Chamado CP-2988108	\N
+463	ALGARTEL900010049762563	KAROLINE CASTRO MARTINS	OPEX	2019-3-1	2019-4-2	2019-4-2	COGENT	11296.2800000000007	3.73850000000000016	3.87699999999999978	43795.6775599999964	encerrada	CP-2948012	7767.9399999999996
+447	100210141458	Andressa Aparecida de Oliveira	OPEX	2019-3-7	2019-3-31	2019-4-1	EQUINIX - MONET	6312.94999999999982	0.100000000000000006	3.87699999999999978	24475.3071499999969	encerrada	0	4420.77999999999975
+470	100210143286	KAROLINE CASTRO MARTINS	OPEX	2019-3-1	2019-4-3	2019-4-3	EQUINIX	3180	3.73850000000000016	3.84390000000000009	12223.6020000000008	encerrada	CP-2970309	2170.75
+477	169528535	Andressa Aparecida de Oliveira	OPEX	2019-4-1	2019-4-1	2019-4-1	Amazon Web Services	4522.64000000000033	0.100000000000000006	3.87699999999999978	17534.2752800000017	encerrada	0	3233.71000000000004
+473	T100243624	KAROLINE CASTRO	OPEX	2019-3-5	2019-4-4	2019-4-4	TERREMARK	45.2700000000000031	3.7831999999999999	3.87000000000000011	175.194900000000018	encerrada	null	30.9200000000000017
+462	20190334730	KAROLINE CASTRO MARTINS	OPEX	2019-3-8	2019-4-7	2019-6-8	SYNIVERSE	24193.4000000000015	3.84870000000000001	3.86799999999999988	93580.0712000000058	encerrada	CP-2947931	16528.2599999999984
+363	11271801	Andressa Aparecida de Oliveira	OPEX	2018-11-29	2019-4-2	2019-4-2	INVOICE EM DOLARES AMERICANOS DA EMPRESA ECKHOFF AND COMPANY - MONET	222372.01999999999	0.100000000000000006	3.87699999999999978	862136.321539999917	encerrada	0.0	152915.130000000005
+451	11374; 11373; 11371; 11370; 11369; 11368	LEANDRO DUMBRA	OPEX	2019-2-22	2019-4-1	2019-4-1	MEDIA NETWORKS	295394.289999999979	3.65129999999999999	3.87699999999999978	1145243.66232999996	encerrada	Chamado CP-2941135	175827.540000000008
+478	100210147079	Andressa Aparecida de Oliveira	OPEX	2019-4-3	2019-5-1	\N	EQUINIX - MONET	6612.94999999999982	0.100000000000000006	\N	\N	aberta	0	\N
+479	N22749	LEANDRO DUMBRA	OPEX	2019-4-4	2019-4-25	\N	BRASIL DISTRIBUTION LLC	69252.7899999999936	3.89610000000000012	\N	\N	aberta	Chamado CP-3002963	\N
+480	N22755	LEANDRO DUMBRA	OPEX	2019-4-4	2019-4-25	\N	BRASIL DISTRIBUTION LLC	103353.080000000002	3.89610000000000012	\N	\N	aberta	Chamado CP-3002999	\N
+455	413277	Andressa Aparecida de Oliveira	OPEX	2020-3-12	2019-4-7	2019-6-8	INVOICE EM DOLARES AMERICANOS DA EMPRESA Fibernet Direct Florida LLC - MONET	9388	0.100000000000000006	3.86799999999999988	36312.7839999999997	encerrada	0	6414.47000000000025
+481	13185	Michelle de Araujo Vieira	OPEX	2019-3-31	2019-4-23	\N	Mail2World, Inc.	115.920000000000002	3.89610000000000012	\N	\N	aberta	Pagamento licenças do Produto Presença Digital - Pangia ISP email Service (50GB)	\N
+482	NEAI81804633-0	KAROLINE CASTRO MARTINS	OPEX	2018-10-9	2019-4-11	\N	TELIACARRIER	12555.3999999999996	3.86580000000000013	\N	\N	aberta	CP-3013099	\N
+483	NEAI81802501-4	KAROLINE CASTRO MARTINS	OPEX	2018-6-11	2019-4-11	\N	TELIACARRIER	5800	0.100000000000000006	\N	\N	aberta	Favor efetuar o pagamento do saldo das invoices NEAI81801210-G; NEAI81802501-4 e NEAI91800178-6_CREDITNOTE do fornecedor TELIACARRIER. Atentar-se que são duas invoices e uma invoice de crédito. O pagamento deve ocorrer apenas do saldo final das três invoices que é de 5,800.00	\N
+484	197761701	Andressa Aparecida de Oliveira	OPEX	2019-4-10	2019-5-3	\N	Amazon Web Services	5745.22000000000025	0.100000000000000006	\N	\N	aberta	0	\N
+485	92585374	KAROLINE CASTRO MARTINS	CAPEX	2019-4-18	2019-6-17	\N	CORIANT	25207.4399999999987	3.79999999999999982	\N	\N	aberta	CP-3037308	\N
+\.
+
+
+--
+-- Name: Invoice_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Invoice_id_seq"', 485, true);
+
+
+--
+-- Data for Name: Machine; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Machine" (id, price, date) FROM stdin;
+\.
+
+
+--
+-- Name: Machine_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Machine_id_seq"', 1, false);
+
+
+--
+-- Data for Name: Notification; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Notification" (id, platform, date, message) FROM stdin;
+1	email	2018-01-02 08:27:50.026279	24
+2	email	2018-02-05 07:05:09.780346	26
+3	email	2018-02-27 08:55:13.183604	10
+4	email	2018-04-03 07:42:25.024491	22
+5	email	2018-05-25 07:16:36.659411	17
+7	email	2018-07-02 05:22:08.9304	18
+6	email	2018-06-12 03:49:53.866482	25
+8	email	2018-07-12 08:21:11.678993	14
+9	email	2018-09-11 03:20:23.82406	28
+10	email	2018-10-31 09:09:14.093262	18
+\.
+
+
+--
+-- Name: Notification_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Notification_id_seq"', 10, true);
+
+
+--
+-- Data for Name: Signals; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Signals" (id, indicator, date, accuracy) FROM stdin;
+153	1	2019-03-06 16:20:05.437154	0.0183693693049051185
+148	8	2018-11-26 22:00:31.298191	1.97566886693429922
+119	3	2018-10-30 06:16:12.924824	0.0307274616872799007
+\.
+
+
+--
+-- Name: Signals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Signals_id_seq"', 153, true);
+
+
+--
+-- Data for Name: Strategy; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Strategy" (id, indicator, days_past, accuracy, active) FROM stdin;
+5	6	0	0	f
+3	8	1	70	t
+2	3	2	10	t
+4	5	0	20	f
+1	1	2	85	t
+\.
+
+
+--
+-- Name: Strategy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Strategy_id_seq"', 5, true);
+
+
+--
+-- Data for Name: Strategy_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Strategy_type" (id, trade_type) FROM stdin;
+\.
+
+
+--
+-- Name: Strategy_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Strategy_type_id_seq"', 1, false);
+
+
+--
+-- Data for Name: Sugestion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Sugestion" (id, sugestion, invoice_id, sugestion_date) FROM stdin;
+\.
+
+
+--
+-- Name: Sugestion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Sugestion_id_seq"', 1, false);
+
+
+--
+-- Data for Name: Tendence; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Tendence" (id, flag, date) FROM stdin;
+1	t	2019-04-18 10:02:03.640519
+\.
+
+
+--
+-- Name: Tendence_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Tendence_id_seq"', 1, true);
+
+
+--
+-- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Users" (id, email, name, password, usertype) FROM stdin;
+40	ferraz@teste.com	ferraz@teste.com	698dc19d489c4e4db73e28a713eab07b	normal
+41	gabriel@ufu.br	gabriel@ufu.br	c79a71131790184753ee96ce0edfb19d	normal
+42	licialapn@algartelecom.com.br	licialapn@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+4	oliveirav@algartelecom.com.br	Oliveira Vieira	77e8cbe559e00095fe7c1982a5b60c35	admin
+5	kellyrmc@algartelecom.com.br	Kelly Roberta	77e8cbe559e00095fe7c1982a5b60c35	admin
+8	karoline@algartelecom.com.br	Karoline Castro	77e8cbe559e00095fe7c1982a5b60c35	admin
+7	vinicius@algartelecom.com.br	Vinicius Fabbri	77e8cbe559e00095fe7c1982a5b60c35	admin
+10	barabarar@algartelecom.com.br	Barbara Ramos	77e8cbe559e00095fe7c1982a5b60c35	normal
+6	gustavop@algartelecom.com.br	Gustavo Orsi	b0e9dc8de1d4a885c31238a52f195ffb	normal
+39	carlarocha@algartelecom.com.br	carlarocha@algartelecom.com.br	9b2bf256d2a6c89e9a975b072255fc96	normal
+43	euclides@algartelecom.com.br	euclides@algartelecom.com.br	cee801529c89b80d714de197ed56c01a	normal
+13	jedygabriel@gmail.com	Gabriel	1abfe60c59a33aa21aa751bca7277bed	admin
+44	ravi@algartelecom.com.br	ravi@algartelecom.com.br	6a734aee248b6749bf1d3cd53dcafc07	normal
+45	michelleav@algartelecom.com.br	michelleav@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+14	barbarar@algartelecom.com.br	Barbara	a247964040f2370d64526c0658c02fd7	admin
+15	teste@teste.com	teste@teste.com	698dc19d489c4e4db73e28a713eab07b	normal
+16	testando@testando.com	testando@testando.com	caa9c8f8620cbb30679026bb6427e11f	normal
+18	joaoplm@algartelecom.com.br	joaoplm@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+20	kellyrmc@algartelecom.com.br	kellyrmc@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+21	marcella@algartelecom.com.br	marcella@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+11	gihane@algartelecom.com.br	Gihane Alves	bded8a22018c3f1259facaa7424318f9	normal
+23	nayaram@algartelecom.com.br	nayaram@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+2	brunno@algartelecom.com.br	Brunno da Silva	77e8cbe559e00095fe7c1982a5b60c35	admin
+3	mariags@algartelecom.com.br	Maria Gabriela	f304c45d3778bc3c71bf330e881cd3fb	normal
+25	munysebb@algartelecom.com.br	munysebb@algartelecom.com.br	0c3858167ed45e6955d2f6508c626aef	admin
+9	leandrod@algartelecom.com.br	Leandro Dumbra	3d9951543dedbc679a2fdcd54d169d68	normal
+26	kennedy@algartelecom.com.br	kennedy@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+27	flaviagm@algartelecom.com.br	flaviagm@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+28	olacirr@algartelecom.com.br	olacirr@algartelecom.com.br	287bced17ca2dcdc155349837a36add6	normal
+30	victoria@algartelecom.com.br	victoria@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+31	matheuslr@algartelecom.com.br	matheuslr@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+29	marianaf@algartelecom.com.br	marianaf@algartelecom.com.br	0b7a95f6224d036ba7f56d689cfb7b34	normal
+32	matheuslr@algartelecom.com.br	matheuslr@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+33	heitor@algartelecom.com.br	heitor@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+34	hamilton@algartelecom.com.br	hamilton@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+35	andressa@algartelecom.com.br	andressa@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+36	munysebb@algartelecom.com.br	munysebb@algartelecom.com.br	0c3858167ed45e6955d2f6508c626aef	normal
+37	eliezer_suporte@algartelecom.com.br	eliezer_suporte@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+38	juliabs@algartelecom.com.br	juliabs@algartelecom.com.br	77e8cbe559e00095fe7c1982a5b60c35	normal
+\.
+
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Users_id_seq"', 45, true);
+
+
+--
+-- Name: Action_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Action"
+    ADD CONSTRAINT "Action_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: CSVs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "CSVs"
+    ADD CONSTRAINT "CSVs_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Contact_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Contact"
+    ADD CONSTRAINT "Contact_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Forecast_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Forecast"
+    ADD CONSTRAINT "Forecast_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Indicator_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Indicator"
+    ADD CONSTRAINT "Indicator_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Invoice_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Invoice"
+    ADD CONSTRAINT "Invoice_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Machine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Machine"
+    ADD CONSTRAINT "Machine_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Notification_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Notification"
+    ADD CONSTRAINT "Notification_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Signals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Signals"
+    ADD CONSTRAINT "Signals_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Strategy_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Strategy"
+    ADD CONSTRAINT "Strategy_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Strategy_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Strategy_type"
+    ADD CONSTRAINT "Strategy_type_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Sugestion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Sugestion"
+    ADD CONSTRAINT "Sugestion_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Tendence_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Tendence"
+    ADD CONSTRAINT "Tendence_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Users"
+    ADD CONSTRAINT "Users_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Action_performed_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Action"
+    ADD CONSTRAINT "Action_performed_by_fkey" FOREIGN KEY (performed_by) REFERENCES "Users"(id);
+
+
+--
+-- Name: Signals_indicator_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Signals"
+    ADD CONSTRAINT "Signals_indicator_fkey" FOREIGN KEY (indicator) REFERENCES "Indicator"(id);
+
+
+--
+-- Name: Strategy_indicator_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Strategy"
+    ADD CONSTRAINT "Strategy_indicator_fkey" FOREIGN KEY (indicator) REFERENCES "Indicator"(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
